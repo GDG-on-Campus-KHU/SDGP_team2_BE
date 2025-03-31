@@ -1,0 +1,19 @@
+name: Java Build and Deploy on develop
+
+on:
+  push:
+    branches: [ "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 체크아웃
+      - name: Checkout code
+        uses: actions/checkout@v4
+      # JDK 설정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
