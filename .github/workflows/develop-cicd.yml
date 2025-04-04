@@ -4,6 +4,9 @@ on:
   push:
     branches: [ "develop" ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,3 +31,24 @@ jobs:
           chmod +x ./gradlew
           ./gradlew clean build -x test
           chmod +x ./gradlew
+
+      # Docker 이미지 빌드
+      - name: Build Docker Image
+        run: docker build -t jh011007/coffee-app:develop .
+
+      # Docker 이미지 푸시
+      - name: Push Docker Image
+        run: docker push jh011007/coffee-app:develop
+
+      # 7. GCP 인스턴스에 배포
+      - name: Deploy to GCP Instance via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.GCP_HOST }}
+          username: ${{ secrets.GCP_USER }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            echo "${{ secrets.ENV_FILE }}" > ~/your-project-directory/.env
+            docker pull jh011007/coffee-app:develop
+            docker compose down
+            docker compose up -d
