@@ -1,11 +1,16 @@
+server:
+  port: 8080
+
 # database 연동 설정
 spring:
+  profiles:
+    include: secret
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     #    각자 PC에 만들어놓은 Database이름
-    url: jdbc:mysql://127.0.0.1:3306/coffee_db
-    username: root
-    password: 1234
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   thymeleaf:
     cache: false
 
