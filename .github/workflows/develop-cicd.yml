@@ -55,7 +55,7 @@ jobs:
           username: ${{ secrets.GCP_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
           script: |
-            echo "${{ secrets.ENV_FILE }}" > ~/SDGP_team2_BE/.env
+            echo "${{ secrets.ENV_FILE }}" > .env
             docker pull jh011007/coffee-app:develop
             docker compose down
             docker compose up -d
