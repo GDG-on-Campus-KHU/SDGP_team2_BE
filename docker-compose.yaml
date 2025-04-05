@@ -16,6 +16,7 @@ services:
 
   db:
     image: mysql:8.0
+    platform: linux/amd64
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
