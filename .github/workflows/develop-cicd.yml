@@ -54,6 +54,8 @@ jobs:
           host: ${{ secrets.GCP_HOST }}
           username: ${{ secrets.GCP_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
+          source: "docker-compose.yaml,.env"
+          target: "~"
           script: |
             echo "${{ secrets.ENV_FILE }}" > .env
             docker pull jh011007/coffee-app:develop
