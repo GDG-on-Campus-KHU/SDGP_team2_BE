@@ -1,0 +1,23 @@
+- name: 📘️ Docs
+  color: 2980b9
+  description: "동작에 영향이 없는 문서 작성"
+
+- name: ✨ Feat
+  color: f39c12
+  description: "신규 기능 구현"
+
+- name: 🐞 Fix
+  color: e74c3c
+  description: "버그 수정, 에러 핸들링"
+
+- name: 🛠️ Modify
+  color: e67e22
+  description: "코드 수정, 함수 및 함수업 수정, 요구사항 변경 반영"
+
+- name: 🔨 Refactor
+  color: 9b59b6
+  description: "코드 리파터딩"
+
+- name: ✅ Test
+  color: 27ae60
+  description: "테스트 코드 작성"
