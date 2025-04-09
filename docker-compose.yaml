@@ -1,5 +1,8 @@
 services:
   app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: jh011007/coffee-app:develop
     platform: linux/amd64
     container_name: coffee-app
