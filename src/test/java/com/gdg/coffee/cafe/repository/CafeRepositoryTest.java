@@ -13,7 +13,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+//for test
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
+import org.springframework.test.context.ActiveProfiles;
+
+
 @DataJpaTest
+@ActiveProfiles("test")  // application‑test.yaml 적용
+@AutoConfigureTestDatabase(replace = NONE)  // H2 설정 유지, Spring이 임의 교체 못 하게
 class CafeRepositoryTest {
 
     @Autowired
