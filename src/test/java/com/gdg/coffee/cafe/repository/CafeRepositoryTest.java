@@ -25,7 +25,7 @@ class CafeRepositoryTest {
     @Test
     @DisplayName("Cafe 엔티티 저장 후 owner(Member) 매핑이 정상 동작해야 한다")
     void saveAndFindById_withOwner() {
-        // given: Member 먼저 저장
+        // Member 객체 생성
         Member member = Member.builder()
                 .email("owner@example.com")
                 .password("securePwd")
@@ -38,7 +38,7 @@ class CafeRepositoryTest {
                 .build();
         Member savedMember = memberRepository.save(member);
 
-        // and: Cafe 객체 생성 (owner로 savedMember 지정)
+        // Cafe 객체 생성
         Cafe cafe = Cafe.builder()
                 .memberId(savedMember)
                 .name("테스트 카페")
@@ -52,15 +52,15 @@ class CafeRepositoryTest {
                 .collectSchedule("매일 10~12시")
                 .build();
 
-        // when: 저장 및 조회
+        // 저장 및 조회
         Cafe savedCafe = cafeRepository.save(cafe);
         Optional<Cafe> foundOpt = cafeRepository.findById(savedCafe.getCafeId());
 
-        // then: 조회 결과 검증
+        // 조회 결과 검증
         assertThat(foundOpt).isPresent();
         Cafe found = foundOpt.get();
         assertThat(found.getName()).isEqualTo("테스트 카페");
-        // 연관관계로 저장된 owner(Member) 검증
+        // 연관관계로 저장된 MemberId(Member) 검증
         assertThat(found.getMemberId().getMemberId()).isEqualTo(savedMember.getMemberId());
         assertThat(found.getMemberId().getName()).isEqualTo("카페주인");
     }
