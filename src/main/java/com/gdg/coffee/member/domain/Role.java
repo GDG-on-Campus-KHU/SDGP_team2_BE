@@ -1,4 +1,4 @@
-package com.gdg.coffee.member.entity;
+package com.gdg.coffee.member.domain;
 
 public enum Role {
     USER,

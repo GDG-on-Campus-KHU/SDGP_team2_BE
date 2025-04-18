@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.Optional;
 
-import com.gdg.coffee.cafe.entity.Cafe;
-import com.gdg.coffee.member.entity.Member;
-import com.gdg.coffee.member.entity.Role;
+import com.gdg.coffee.cafe.domain.Cafe;
+import com.gdg.coffee.member.domain.Member;
+import com.gdg.coffee.member.domain.Role;
 import com.gdg.coffee.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
