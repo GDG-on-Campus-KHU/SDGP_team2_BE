@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL   # MySQL 문법 허용
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop    # 매 테스트마다 스키마 새로 생성
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect        # 엔티티에 ENUM 등 MySQL 방식을 그대로 사용
+logging:
+  level:
+    org.hibernate.SQL: debug   # (선택) 콘솔에 SQL 보기
