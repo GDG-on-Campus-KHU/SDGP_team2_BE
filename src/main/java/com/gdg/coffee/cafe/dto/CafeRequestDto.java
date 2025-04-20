@@ -23,6 +23,9 @@ public class CafeRequestDto {
     @NotBlank @Size(max = 255)
     private String detailAddress;
 
+    @NotBlank @Size(max = 50)
+    private String phone;
+
     @NotNull
     private Float latitude;
 
@@ -30,16 +33,13 @@ public class CafeRequestDto {
     private Float longitude;
 
     @NotBlank @Size(max = 50)
-    private String phone;
-
-    @NotBlank @Size(max = 100)
-    private String collectSchedule;
-
-    @NotBlank @Size(max = 50)
     private String openHours;
 
     @Size(max = 2048)
     private String description;
+
+    @NotBlank @Size(max = 100)
+    private String collectSchedule;
 
     /**
      * DTO → Entity 변환 메서드

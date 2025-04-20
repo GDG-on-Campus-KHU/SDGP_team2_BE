@@ -31,7 +31,7 @@ public class CafeResponseDto {
     /**
      * Entity → DTO 변환 메서드
      */
-    public static CafeResponseDto from(Cafe cafe) {
+    public static CafeResponseDto fromEntity(Cafe cafe) {
         return CafeResponseDto.builder()
                 .cafeId(cafe.getCafeId())
                 .memberId(cafe.getMemberId())
