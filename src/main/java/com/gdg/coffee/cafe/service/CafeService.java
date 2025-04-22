@@ -14,11 +14,8 @@ public interface CafeService {
     CafeResponseDto getCafe(Long cafeId);
 
     /** 회원이 보유한 카페 목록(페이지네이션) */
-    Page<CafeResponseDto> getCafesByMember(Long memberId, Pageable pageable);
+    Page<CafeResponseDto> getAllCafes(Pageable pageable);
 
     /** 정보 수정 */
     CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto);
-
-    /** 삭제 */
-    void deleteCafe(Long cafeId);
 }

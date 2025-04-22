@@ -28,7 +28,7 @@ public class CafeServiceImpl implements CafeService {
      */
     @Override
     @Transactional
-    public CafeResponseDto createCafe(CafeRequestDto request) {
+    public CafeResponseDto  createCafe(CafeRequestDto request) {
         Long memberId = request.getMemberId();
         // 회원 ID로 회원 존재 여부 확인
         if (!memberRepository.existsById(memberId)) {
@@ -71,7 +71,7 @@ public class CafeServiceImpl implements CafeService {
     /** 회원이 보유한 카페 목록(페이지네이션) */
     @Override
     @Transactional(readOnly = true)
-    public Page<CafeResponseDto> getCafesByMember(Long memberId, Pageable pageable) {
+    public Page<CafeResponseDto> getAllCafes(Pageable pageable) {
         throw new UnsupportedOperationException("getCafesByMember is not implemented yet");
     }
 
@@ -79,11 +79,5 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto) {
         throw new UnsupportedOperationException("updateCafe is not implemented yet");
-    }
-
-    /** 삭제 */
-    @Override
-    public void deleteCafe(Long cafeId) {
-        throw new UnsupportedOperationException("deleteCafe is not implemented yet");
     }
 }
