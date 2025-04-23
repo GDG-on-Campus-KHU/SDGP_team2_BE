@@ -8,6 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "cafe")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -19,9 +20,8 @@ public class Cafe extends BaseTime {
     private Long cafeId;
 
     // member fk
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member memberId;
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
 
     @Column(nullable = false, length = 255)
     private String name;
