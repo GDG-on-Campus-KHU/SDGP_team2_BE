@@ -5,7 +5,7 @@ import com.gdg.coffee.cafe.dto.CafeRequestDto;
 import com.gdg.coffee.cafe.dto.CafeResponseDto;
 import com.gdg.coffee.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
-import com.gdg.coffee.global.common.response.SuccessCode;
+import com.gdg.coffee.global.common.response.cafe.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,21 +24,21 @@ public class CafeController {
     @PostMapping
     public ApiResponse<CafeResponseDto> createCafe(@RequestBody @Valid CafeRequestDto requestDto) {
         CafeResponseDto created = cafeService.createCafe(requestDto);
-        return ApiResponse.success(SuccessCode.CREATED, created);
+        return ApiResponse.success(CafeSuccessCode.CAFE_CREATE_SUCCESS, created);
     }
 
     /** 2. 단건 조회 (200 OK) */
     @GetMapping("/{cafeId}")
     public ApiResponse<CafeResponseDto> getCafe(@PathVariable Long cafeId) {
         CafeResponseDto dto = cafeService.getCafe(cafeId);
-        return ApiResponse.success(SuccessCode.SUCCESS, dto);
+        return ApiResponse.success(CafeSuccessCode.CAFE_GET_SUCCESS, dto);
     }
 
     /** 3. 전체 카페 목록 조회 (200 OK)*/
     @GetMapping
     public ApiResponse<Page<CafeResponseDto>> getAllCafes(Pageable pageable) {
         Page<CafeResponseDto> page = cafeService.getAllCafes(pageable);
-        return ApiResponse.success(SuccessCode.SUCCESS, page);
+        return ApiResponse.success(CafeSuccessCode.CAFE_GET_LIST_SUCCESS, page);
     }
 
     /** 4. 정보 수정 (200 OK) */
@@ -47,6 +47,6 @@ public class CafeController {
             @PathVariable Long cafeId,
             @RequestBody @Valid CafeRequestDto requestDto) {
         CafeResponseDto updated = cafeService.updateCafe(cafeId, requestDto);
-        return ApiResponse.success(SuccessCode.SUCCESS, updated);
+        return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }
 }
