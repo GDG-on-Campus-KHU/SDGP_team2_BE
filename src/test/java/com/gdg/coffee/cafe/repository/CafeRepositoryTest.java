@@ -31,24 +31,20 @@ class CafeRepositoryTest {
     private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("Cafe 엔티티 저장 후 owner(Member) 매핑이 정상 동작해야 한다")
+    @DisplayName("Cafe 저장 후 memberId 매핑 및 값 검증")
     void saveAndFindById_withOwner() {
-        // Member 객체 생성
+        // 1) Member 저장
         Member member = Member.builder()
                 .email("owner@example.com")
                 .password("securePwd")
                 .name("카페주인")
                 .role(Role.CAFE)
-                .avatar(null)
-                .phone("010-0000-0000")
-                .socialType(null)
-                .socialId(null)
                 .build();
         Member savedMember = memberRepository.save(member);
 
-        // Cafe 객체 생성
+        // 2) Cafe 저장
         Cafe cafe = Cafe.builder()
-                .memberId(savedMember)
+                .memberId(savedMember.getMemberId())
                 .name("테스트 카페")
                 .address("서울시 강남구")
                 .detailAddress("2층")
@@ -59,17 +55,16 @@ class CafeRepositoryTest {
                 .description("연관관계 테스트 카페")
                 .collectSchedule("매일 10~12시")
                 .build();
-
-        // 저장 및 조회
         Cafe savedCafe = cafeRepository.save(cafe);
-        Optional<Cafe> foundOpt = cafeRepository.findById(savedCafe.getCafeId());
 
-        // 조회 결과 검증
-        assertThat(foundOpt).isPresent();
-        Cafe found = foundOpt.get();
-        assertThat(found.getName()).isEqualTo("테스트 카페");
-        // 연관관계로 저장된 MemberId(Member) 검증
-        assertThat(found.getMemberId().getMemberId()).isEqualTo(savedMember.getMemberId());
-        assertThat(found.getMemberId().getName()).isEqualTo("카페주인");
+        // 3) 조회
+        Cafe found = cafeRepository.findById(savedCafe.getCafeId())
+                .orElseThrow();
+
+        // 4) 검증
+        assertThat(found.getName()).isEqualTo("테스트 카페");                 // 카페 이름
+        assertThat(found.getMemberId()).isEqualTo(savedMember.getMemberId()); // FK 값
+        assertThat(savedMember.getName()).isEqualTo("카페주인");             // 회원 이름
     }
+
 }
