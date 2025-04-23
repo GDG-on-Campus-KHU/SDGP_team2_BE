@@ -1,5 +1,6 @@
 package com.gdg.coffee.cafe.service;
 
+import com.gdg.coffee.cafe.dto.CafeCreateResponseDto;
 import com.gdg.coffee.cafe.dto.CafeRequestDto;
 import com.gdg.coffee.cafe.dto.CafeResponseDto;
 import org.springframework.data.domain.Page;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 public interface CafeService {
 
     /** 카페 신규 등록 */
-    CafeResponseDto createCafe(CafeRequestDto requestDto);
+    CafeCreateResponseDto createCafe(CafeRequestDto requestDto);
 
     /** 단건 조회 */
     CafeResponseDto getCafe(Long cafeId);

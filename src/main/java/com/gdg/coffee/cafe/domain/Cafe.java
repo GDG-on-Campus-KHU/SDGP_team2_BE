@@ -1,7 +1,6 @@
 package com.gdg.coffee.cafe.domain;
 
 import com.gdg.coffee.domain.common.BaseTime;
-import com.gdg.coffee.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
