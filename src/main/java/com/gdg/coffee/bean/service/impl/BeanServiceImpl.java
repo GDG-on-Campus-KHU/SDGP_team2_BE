@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,8 +53,16 @@ public class BeanServiceImpl implements BeanService {
     /** 3. 원두 정보 수정 */
     @Override
     public BeanResponseDto updateBean(Long beanId, BeanRequestDto requestDto) {
-        // just stub
-        throw new UnsupportedOperationException("updateBean not implemented yet");
+        Bean bean = beanRepository.findById(beanId)
+                .orElseThrow(() -> new BaseException(BeanErrorCode.BEAN_NOT_FOUND));
+
+        // 추후 권한 검증 로직 수정
+        if (!bean.getCafeId().equals(requestDto.getCafeId())) {
+            throw new BaseException(BeanErrorCode.BEAN_FORBIDDEN);
+        }
+
+        bean.update(requestDto);
+        return BeanResponseDto.fromEntity(bean);
     }
 
     /** 4. 원두 삭제 */
