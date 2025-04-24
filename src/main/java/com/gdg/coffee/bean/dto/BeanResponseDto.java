@@ -17,7 +17,6 @@ public class BeanResponseDto {
     private String name;
     private String origin;
     private String description;
-    private Long cafeId;
 
     /**
      * Entity -> DTO 변환
@@ -27,8 +26,7 @@ public class BeanResponseDto {
                 bean.getBeanId(),
                 bean.getName(),
                 bean.getOrigin(),
-                bean.getDescription(),
-                bean.getCafeId()
+                bean.getDescription()
         );
     }
 }

@@ -5,6 +5,7 @@ import com.gdg.coffee.bean.dto.BeanResponseDto;
 import com.gdg.coffee.bean.service.BeanService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.common.response.bean.BeanSuccessCode;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/beans")
+@RequestMapping("/beans")
 @RequiredArgsConstructor
 @Validated
 public class BeanController {
@@ -21,13 +22,13 @@ public class BeanController {
 
     /** 1. 원두 등록 (201 CREATED) */
     @PostMapping
-    public ApiResponse<BeanResponseDto> createBean(@RequestBody BeanRequestDto requestDto) {
+    public ApiResponse<BeanResponseDto> createBean(@Valid @RequestBody BeanRequestDto requestDto) {
         BeanResponseDto created = beanService.createBean(requestDto);
         return ApiResponse.success(BeanSuccessCode.BEAN_CREATE_SUCCESS, created);
     }
 
     /** 2. 카페별 원두 목록 조회 (200 OK) */
-    @GetMapping("/cafe/{cafeId}")
+    @GetMapping("/{cafeId}")
     public ApiResponse<List<BeanResponseDto>> getBeansByCafe(@PathVariable Long cafeId) {
         List<BeanResponseDto> list = beanService.getBeansByCafeId(cafeId);
         return ApiResponse.success(BeanSuccessCode.BEAN_LIST_SUCCESS, list);

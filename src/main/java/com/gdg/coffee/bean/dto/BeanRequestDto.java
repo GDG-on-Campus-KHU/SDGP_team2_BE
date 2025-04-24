@@ -3,6 +3,7 @@ package com.gdg.coffee.bean.dto;
 import com.gdg.coffee.bean.domain.Bean;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -13,15 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BeanRequestDto {
 
-    @NotBlank(message = "원두 이름은 필수입니다.")
+    @NotBlank @Size(max = 50)
     private String name;
 
-    @NotBlank(message = "원산지는 필수입니다.")
+    @NotBlank @Size(max = 50)
     private String origin;
 
     private String description;
 
-    @NotNull(message = "카페 ID는 필수입니다.")
+    @NotNull
     private Long cafeId;
 
     /**

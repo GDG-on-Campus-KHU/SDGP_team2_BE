@@ -1,9 +1,14 @@
 package com.gdg.coffee.bean.service.impl;
 
+import com.gdg.coffee.bean.domain.Bean;
 import com.gdg.coffee.bean.dto.BeanRequestDto;
 import com.gdg.coffee.bean.dto.BeanResponseDto;
 import com.gdg.coffee.bean.repository.BeanRepository;
 import com.gdg.coffee.bean.service.BeanService;
+import com.gdg.coffee.cafe.repository.CafeRepository;
+import com.gdg.coffee.global.common.exception.BaseException;
+import com.gdg.coffee.global.common.response.bean.BeanErrorCode;
+import com.gdg.coffee.global.common.response.cafe.CafeErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +21,18 @@ import java.util.List;
 public class BeanServiceImpl implements BeanService {
 
     private final BeanRepository beanRepository;
+    private final CafeRepository cafeRepository;
 
     /** 1. 원두 등록 */
     @Override
-    public BeanResponseDto createBean(BeanRequestDto requestDto) {
-        // just stub
-        throw new UnsupportedOperationException("createBean not implemented yet");
+    public BeanResponseDto createBean(BeanRequestDto dto) {
+        cafeRepository.findById(dto.getCafeId())
+                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // 추후 권한 검증 추가
+
+        Bean saved = beanRepository.save(dto.toEntity());
+        return BeanResponseDto.fromEntity(saved);
     }
 
     /** 2. 카페별 원두 목록 조회 */

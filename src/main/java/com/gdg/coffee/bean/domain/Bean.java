@@ -3,6 +3,7 @@ package com.gdg.coffee.bean.domain;
 import com.gdg.coffee.bean.dto.BeanRequestDto;
 import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 /**
@@ -22,10 +23,10 @@ public class Bean extends BaseTime {
     @Column(name = "bean_id")
     private Long beanId;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String origin;
 
     @Column(columnDefinition = "TEXT")
