@@ -68,7 +68,11 @@ public class BeanServiceImpl implements BeanService {
     /** 4. 원두 삭제 */
     @Override
     public void deleteBean(Long beanId) {
-        // just stub
-        throw new UnsupportedOperationException("deleteBean not implemented yet");
+        Bean bean = beanRepository.findById(beanId)
+                .orElseThrow(() -> new BaseException(BeanErrorCode.BEAN_NOT_FOUND));
+
+        //추후 권한 검증 추가
+
+        beanRepository.delete(bean);
     }
 }
