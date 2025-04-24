@@ -6,9 +6,9 @@ import lombok.*;
 
 //카페 생성·수정 요청 DTO
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
 public class CafeRequestDto {
 
     @NotNull(message = "소유 회원 ID는 필수입니다.")

@@ -1,5 +1,6 @@
 package com.gdg.coffee.cafe.service.impl;
 
+import com.gdg.coffee.cafe.dto.CafeCreateResponseDto;
 import com.gdg.coffee.global.common.exception.BaseException;
 import com.gdg.coffee.global.common.response.cafe.*;
 import com.gdg.coffee.global.common.response.member.*;
@@ -26,10 +27,12 @@ public class CafeServiceImpl implements CafeService {
     private final CafeRepository cafeRepository;
     private final MemberRepository memberRepository;
 
-    /** 카페 등록*/
+    /**
+     * 카페 등록
+     */
     @Override
     @Transactional
-    public CafeResponseDto  createCafe(CafeRequestDto request) {
+    public CafeCreateResponseDto createCafe(CafeRequestDto request) {
         // Member 조회
         memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new BaseException(MemberErrorCode.MEMBER_NOT_FOUND));
@@ -37,7 +40,7 @@ public class CafeServiceImpl implements CafeService {
         Cafe cafe = request.toEntity();
         // DB에 저장 및 반환
         Cafe saved = cafeRepository.save(cafe);
-        return CafeResponseDto.fromEntity(saved);
+        return CafeCreateResponseDto.fromEntity(saved);
     }
 
     /** 단건 조회 */
@@ -54,12 +57,24 @@ public class CafeServiceImpl implements CafeService {
     @Override
     @Transactional(readOnly = true)
     public Page<CafeResponseDto> getAllCafes(Pageable pageable) {
-        throw new UnsupportedOperationException("getCafesByMember is not implemented yet");
+        Page<Cafe> cafes = cafeRepository.findAll(pageable);
+        return cafes.map(CafeResponseDto::fromEntity);
     }
 
     /** 정보 수정 */
     @Override
     public CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto) {
-        throw new UnsupportedOperationException("updateCafe is not implemented yet");
+        // Cafe 조회
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // 권한 체크
+        if (!cafe.getMemberId().equals(requestDto.getMemberId())) {
+            throw new BaseException(CafeErrorCode.CAFE_FORBIDDEN);
+        }
+
+        // update
+        cafe.update(requestDto);
+        return CafeResponseDto.fromEntity(cafe);
     }
 }

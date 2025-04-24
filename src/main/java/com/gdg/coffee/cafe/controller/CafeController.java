@@ -1,6 +1,6 @@
-// src/main/java/com/gdg/coffee/cafe/controller/CafeController.java
 package com.gdg.coffee.cafe.controller;
 
+import com.gdg.coffee.cafe.dto.CafeCreateResponseDto;
 import com.gdg.coffee.cafe.dto.CafeRequestDto;
 import com.gdg.coffee.cafe.dto.CafeResponseDto;
 import com.gdg.coffee.cafe.service.CafeService;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/cafes")
@@ -22,8 +24,8 @@ public class CafeController {
 
     /** 1. 카페 생성 (201 Created) */
     @PostMapping
-    public ApiResponse<CafeResponseDto> createCafe(@RequestBody @Valid CafeRequestDto requestDto) {
-        CafeResponseDto created = cafeService.createCafe(requestDto);
+    public ApiResponse<CafeCreateResponseDto> createCafe(@RequestBody @Valid CafeRequestDto requestDto) {
+        CafeCreateResponseDto created = cafeService.createCafe(requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_CREATE_SUCCESS, created);
     }
 
@@ -36,16 +38,18 @@ public class CafeController {
 
     /** 3. 전체 카페 목록 조회 (200 OK)*/
     @GetMapping
-    public ApiResponse<Page<CafeResponseDto>> getAllCafes(Pageable pageable) {
+    public ApiResponse<List<CafeResponseDto>> getAllCafes(Pageable pageable) {
         Page<CafeResponseDto> page = cafeService.getAllCafes(pageable);
-        return ApiResponse.success(CafeSuccessCode.CAFE_GET_LIST_SUCCESS, page);
+        // Page 의 content 리스트만 꺼내서 반환
+        List<CafeResponseDto> list = page.getContent();
+        return ApiResponse.success(CafeSuccessCode.CAFE_GET_LIST_SUCCESS, list);
     }
 
     /** 4. 정보 수정 (200 OK) */
     @PutMapping("/{cafeId}")
     public ApiResponse<CafeResponseDto> updateCafe(
             @PathVariable Long cafeId,
-            @RequestBody @Valid CafeRequestDto requestDto) {
+            @RequestBody CafeRequestDto requestDto) {
         CafeResponseDto updated = cafeService.updateCafe(cafeId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }
