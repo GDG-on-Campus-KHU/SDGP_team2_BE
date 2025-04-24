@@ -68,6 +68,11 @@ public class CafeServiceImpl implements CafeService {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
 
+        // 권한 체크
+        if (!cafe.getMemberId().equals(requestDto.getMemberId())) {
+            throw new BaseException(CafeErrorCode.CAFE_FORBIDDEN);
+        }
+
         // update
         cafe.update(requestDto);
         return CafeResponseDto.fromEntity(cafe);
