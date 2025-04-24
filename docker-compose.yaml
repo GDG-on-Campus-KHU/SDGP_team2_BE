@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: jh011007/coffee-app:develop
+    image: jh011007/coffee-app:latest
     platform: linux/amd64
     container_name: coffee-app
     ports:
