@@ -49,7 +49,7 @@ public class CafeController {
     @PutMapping("/{cafeId}")
     public ApiResponse<CafeResponseDto> updateCafe(
             @PathVariable Long cafeId,
-            @RequestBody @Valid CafeRequestDto requestDto) {
+            @RequestBody CafeRequestDto requestDto) {
         CafeResponseDto updated = cafeService.updateCafe(cafeId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }

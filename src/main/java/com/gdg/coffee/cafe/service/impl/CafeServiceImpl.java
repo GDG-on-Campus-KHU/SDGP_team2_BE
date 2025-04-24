@@ -64,6 +64,12 @@ public class CafeServiceImpl implements CafeService {
     /** 정보 수정 */
     @Override
     public CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto) {
-        throw new UnsupportedOperationException("updateCafe is not implemented yet");
+        // Cafe 조회
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // update
+        cafe.update(requestDto);
+        return CafeResponseDto.fromEntity(cafe);
     }
 }
