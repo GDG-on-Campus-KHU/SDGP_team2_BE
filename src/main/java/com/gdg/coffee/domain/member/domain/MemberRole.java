@@ -7,5 +7,6 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum MemberRole {
     USER,
-    CAFE
+    CAFE,
+    ADMIN
 }
