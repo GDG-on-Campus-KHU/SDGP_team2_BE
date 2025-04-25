@@ -3,7 +3,7 @@ package com.gdg.coffee.global.common.exception;
 import com.gdg.coffee.global.common.type.ErrorResponse;
 import org.springframework.http.HttpStatus;
 
-public class BaseException extends RuntimeException {
+public abstract class BaseException extends RuntimeException {
 
     private final ErrorResponse errorResponse;
 
