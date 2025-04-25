@@ -1,7 +1,7 @@
-package com.gdg.coffee.cafe.domain;
+package com.gdg.coffee.domain.cafe.domain;
 
 import com.gdg.coffee.domain.common.BaseTime;
-import com.gdg.coffee.member.domain.Member;
+import com.gdg.coffee.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +19,9 @@ public class Cafe extends BaseTime {
     @Column(name = "cafe_id")
     private Long cafeId;
 
-    // member fk
-    @Column(name = "member_id", nullable = false)
-    private Long memberId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @Column(nullable = false, length = 255)
     private String name;

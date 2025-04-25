@@ -1,7 +1,7 @@
-package com.gdg.coffee.cafe.service;
+package com.gdg.coffee.domain.cafe.service;
 
-import com.gdg.coffee.cafe.dto.CafeRequestDto;
-import com.gdg.coffee.cafe.dto.CafeResponseDto;
+import com.gdg.coffee.domain.cafe.dto.CafeRequestDto;
+import com.gdg.coffee.domain.cafe.dto.CafeResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

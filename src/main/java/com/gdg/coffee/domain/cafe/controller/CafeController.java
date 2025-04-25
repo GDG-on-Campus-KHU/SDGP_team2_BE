@@ -1,9 +1,9 @@
 // src/main/java/com/gdg/coffee/cafe/controller/CafeController.java
-package com.gdg.coffee.cafe.controller;
+package com.gdg.coffee.domain.cafe.controller;
 
-import com.gdg.coffee.cafe.dto.CafeRequestDto;
-import com.gdg.coffee.cafe.dto.CafeResponseDto;
-import com.gdg.coffee.cafe.service.CafeService;
+import com.gdg.coffee.domain.cafe.dto.CafeRequestDto;
+import com.gdg.coffee.domain.cafe.dto.CafeResponseDto;
+import com.gdg.coffee.domain.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.common.response.cafe.*;
 import lombok.RequiredArgsConstructor;

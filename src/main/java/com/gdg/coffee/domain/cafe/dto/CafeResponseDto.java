@@ -1,6 +1,6 @@
-package com.gdg.coffee.cafe.dto;
+package com.gdg.coffee.domain.cafe.dto;
 
-import com.gdg.coffee.cafe.domain.Cafe;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import lombok.*;
 import java.time.LocalDateTime;
 
@@ -34,7 +34,7 @@ public class CafeResponseDto {
     public static CafeResponseDto fromEntity(Cafe cafe) {
         return CafeResponseDto.builder()
                 .cafeId(cafe.getCafeId())
-                .memberId(cafe.getMemberId())
+                .memberId(cafe.getMember().getId())
                 .name(cafe.getName())
                 .address(cafe.getAddress())
                 .detailAddress(cafe.getDetailAddress())

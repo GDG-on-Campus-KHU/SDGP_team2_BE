@@ -1,10 +1,10 @@
-package com.gdg.coffee.cafe.dto;
+package com.gdg.coffee.domain.cafe.dto;
 
-import com.gdg.coffee.cafe.domain.Cafe;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
+import com.gdg.coffee.domain.member.domain.Member;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-//카페 생성·수정 요청 DTO
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -43,10 +43,11 @@ public class CafeRequestDto {
 
     /**
      * DTO → Entity 변환 메서드
+     * @param member FK로 참조할 Member 엔티티 (Controller나 Service에서 조회 후 주입)
      */
-    public Cafe toEntity() {
+    public Cafe toEntity(Member member) {
         return Cafe.builder()
-                .memberId(memberId)
+                .member(member)  // memberId가 아닌 member 객체 사용
                 .name(name)
                 .address(address)
                 .detailAddress(detailAddress)

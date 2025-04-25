@@ -1,20 +1,22 @@
-package com.gdg.coffee.cafe.service.impl;
+package com.gdg.coffee.domain.cafe.service.impl;
 
-import com.gdg.coffee.global.common.exception.BaseException;
+import com.gdg.coffee.domain.cafe.exception.CafeException;
+import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.exception.MemberErrorCode;
+import com.gdg.coffee.domain.member.exception.MemberException;
+import com.gdg.coffee.domain.member.repository.MemberRepository;
 import com.gdg.coffee.global.common.response.cafe.*;
-import com.gdg.coffee.global.common.response.member.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.gdg.coffee.cafe.dto.CafeRequestDto;
-import com.gdg.coffee.cafe.dto.CafeResponseDto;
-import com.gdg.coffee.cafe.domain.Cafe;
-import com.gdg.coffee.cafe.repository.CafeRepository;
-import com.gdg.coffee.cafe.service.CafeService;
-import com.gdg.coffee.member.repository.MemberRepository;
+import com.gdg.coffee.domain.cafe.dto.CafeRequestDto;
+import com.gdg.coffee.domain.cafe.dto.CafeResponseDto;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
+import com.gdg.coffee.domain.cafe.repository.CafeRepository;
+import com.gdg.coffee.domain.cafe.service.CafeService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,10 +33,10 @@ public class CafeServiceImpl implements CafeService {
     @Transactional
     public CafeResponseDto  createCafe(CafeRequestDto request) {
         // Member 조회
-        memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new BaseException(MemberErrorCode.MEMBER_NOT_FOUND));
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        Cafe cafe = request.toEntity();
+        Cafe cafe = request.toEntity(member);
         // DB에 저장 및 반환
         Cafe saved = cafeRepository.save(cafe);
         return CafeResponseDto.fromEntity(saved);
@@ -45,7 +47,7 @@ public class CafeServiceImpl implements CafeService {
     @Transactional(readOnly = true)
     public CafeResponseDto getCafe(Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         return CafeResponseDto.fromEntity(cafe);
     }

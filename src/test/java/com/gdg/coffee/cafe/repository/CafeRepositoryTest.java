@@ -2,12 +2,11 @@ package com.gdg.coffee.cafe.repository;
 
 import static org.assertj.core.api.Assertions.*;
 
-import java.util.Optional;
-
-import com.gdg.coffee.cafe.domain.Cafe;
-import com.gdg.coffee.member.domain.Member;
-import com.gdg.coffee.member.domain.Role;
-import com.gdg.coffee.member.repository.MemberRepository;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
+import com.gdg.coffee.domain.cafe.repository.CafeRepository;
+import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.domain.MemberRole;
+import com.gdg.coffee.domain.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 //for test
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
-import org.springframework.test.context.ActiveProfiles;
 
+import org.springframework.context.annotation.Import;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.test.context.ActiveProfiles;
 
 @DataJpaTest
 @ActiveProfiles("test")  // application‑test.yaml 적용
@@ -37,14 +38,14 @@ class CafeRepositoryTest {
         Member member = Member.builder()
                 .email("owner@example.com")
                 .password("securePwd")
-                .name("카페주인")
-                .role(Role.CAFE)
+                .username("카페주인")
+                .role(MemberRole.CAFE)
                 .build();
         Member savedMember = memberRepository.save(member);
 
         // 2) Cafe 저장
         Cafe cafe = Cafe.builder()
-                .memberId(savedMember.getMemberId())
+                .member(savedMember)
                 .name("테스트 카페")
                 .address("서울시 강남구")
                 .detailAddress("2층")
@@ -63,8 +64,8 @@ class CafeRepositoryTest {
 
         // 4) 검증
         assertThat(found.getName()).isEqualTo("테스트 카페");                 // 카페 이름
-        assertThat(found.getMemberId()).isEqualTo(savedMember.getMemberId()); // FK 값
-        assertThat(savedMember.getName()).isEqualTo("카페주인");             // 회원 이름
+        assertThat(found.getMember().getId()).isEqualTo(savedMember.getId()); // FK 값
+        assertThat(savedMember.getUsername()).isEqualTo("카페주인");             // 회원 이름
     }
 
 }
