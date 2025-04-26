@@ -1,7 +1,7 @@
-package com.gdg.coffee.bean.service;
+package com.gdg.coffee.domain.bean.service;
 
-import com.gdg.coffee.bean.dto.BeanRequestDto;
-import com.gdg.coffee.bean.dto.BeanResponseDto;
+import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
 
 import java.util.List;
 

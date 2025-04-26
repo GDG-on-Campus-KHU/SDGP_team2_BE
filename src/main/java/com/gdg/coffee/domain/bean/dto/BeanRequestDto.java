@@ -1,6 +1,6 @@
-package com.gdg.coffee.bean.dto;
+package com.gdg.coffee.domain.bean.dto;
 
-import com.gdg.coffee.bean.domain.Bean;
+import com.gdg.coffee.domain.bean.domain.Bean;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

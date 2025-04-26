@@ -3,9 +3,9 @@ package com.gdg.coffee.domain.cafe.controller;
 
 import com.gdg.coffee.domain.cafe.dto.CafeRequestDto;
 import com.gdg.coffee.domain.cafe.dto.CafeResponseDto;
+import com.gdg.coffee.domain.cafe.exception.CafeSuccessCode;
 import com.gdg.coffee.domain.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
-import com.gdg.coffee.global.common.response.cafe.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cafes")
+@RequestMapping("/api/cafes")
 public class CafeController {
 
     private final CafeService cafeService;

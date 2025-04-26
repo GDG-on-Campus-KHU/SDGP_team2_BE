@@ -1,20 +1,20 @@
-package com.gdg.coffee.bean.service.impl;
+package com.gdg.coffee.domain.bean.service.impl;
 
-import com.gdg.coffee.bean.domain.Bean;
-import com.gdg.coffee.bean.dto.BeanRequestDto;
-import com.gdg.coffee.bean.dto.BeanResponseDto;
-import com.gdg.coffee.bean.repository.BeanRepository;
-import com.gdg.coffee.bean.service.BeanService;
-import com.gdg.coffee.cafe.repository.CafeRepository;
-import com.gdg.coffee.global.common.exception.BaseException;
-import com.gdg.coffee.global.common.response.bean.BeanErrorCode;
-import com.gdg.coffee.global.common.response.cafe.CafeErrorCode;
+import com.gdg.coffee.domain.bean.domain.Bean;
+import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
+import com.gdg.coffee.domain.bean.exception.BeanErrorCode;
+import com.gdg.coffee.domain.bean.exception.BeanException;
+import com.gdg.coffee.domain.bean.repository.BeanRepository;
+import com.gdg.coffee.domain.bean.service.BeanService;
+import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
+import com.gdg.coffee.domain.cafe.exception.CafeException;
+import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,7 +29,7 @@ public class BeanServiceImpl implements BeanService {
     @Override
     public BeanResponseDto createBean(BeanRequestDto dto) {
         cafeRepository.findById(dto.getCafeId())
-                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         // 추후 권한 검증 추가
 
@@ -42,7 +42,7 @@ public class BeanServiceImpl implements BeanService {
     @Transactional(readOnly = true)
     public List<BeanResponseDto> getBeansByCafeId(Long cafeId) {
         cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new BaseException(CafeErrorCode.CAFE_NOT_FOUND));
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         // 원두 조회 및 DTO 변환
         return beanRepository.findAllByCafeId(cafeId).stream()
@@ -54,11 +54,11 @@ public class BeanServiceImpl implements BeanService {
     @Override
     public BeanResponseDto updateBean(Long beanId, BeanRequestDto requestDto) {
         Bean bean = beanRepository.findById(beanId)
-                .orElseThrow(() -> new BaseException(BeanErrorCode.BEAN_NOT_FOUND));
+                .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
         // 추후 권한 검증 로직 수정
         if (!bean.getCafeId().equals(requestDto.getCafeId())) {
-            throw new BaseException(BeanErrorCode.BEAN_FORBIDDEN);
+            throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
         }
 
         bean.update(requestDto);
@@ -69,7 +69,7 @@ public class BeanServiceImpl implements BeanService {
     @Override
     public void deleteBean(Long beanId) {
         Bean bean = beanRepository.findById(beanId)
-                .orElseThrow(() -> new BaseException(BeanErrorCode.BEAN_NOT_FOUND));
+                .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
         //추후 권한 검증 추가
 

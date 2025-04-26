@@ -1,11 +1,11 @@
 package com.gdg.coffee.domain.cafe.service.impl;
 
+import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
 import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
 import com.gdg.coffee.domain.member.exception.MemberException;
 import com.gdg.coffee.domain.member.repository.MemberRepository;
-import com.gdg.coffee.global.common.response.cafe.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

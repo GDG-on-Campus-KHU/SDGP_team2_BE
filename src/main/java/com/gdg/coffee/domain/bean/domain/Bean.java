@@ -1,9 +1,8 @@
-package com.gdg.coffee.bean.domain;
+package com.gdg.coffee.domain.bean.domain;
 
-import com.gdg.coffee.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
 import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.*;
 
 /**
