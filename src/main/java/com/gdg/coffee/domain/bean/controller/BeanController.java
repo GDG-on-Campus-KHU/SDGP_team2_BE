@@ -2,9 +2,9 @@ package com.gdg.coffee.domain.bean.controller;
 
 import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
 import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
+import com.gdg.coffee.domain.bean.exception.BeanSuccessCode;
 import com.gdg.coffee.domain.bean.service.BeanService;
 import com.gdg.coffee.global.common.response.ApiResponse;
-import com.gdg.coffee.global.common.response.bean.BeanSuccessCode;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
