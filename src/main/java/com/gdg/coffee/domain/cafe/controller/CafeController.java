@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cafes")
+@RequestMapping("/api/cafes")
 public class CafeController {
 
     private final CafeService cafeService;

@@ -1,8 +1,8 @@
-package com.gdg.coffee.bean.controller;
+package com.gdg.coffee.domain.bean.controller;
 
-import com.gdg.coffee.bean.dto.BeanRequestDto;
-import com.gdg.coffee.bean.dto.BeanResponseDto;
-import com.gdg.coffee.bean.service.BeanService;
+import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
+import com.gdg.coffee.domain.bean.service.BeanService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.common.response.bean.BeanSuccessCode;
 import jakarta.validation.Valid;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/beans")
+@RequestMapping("/api/beans")
 @RequiredArgsConstructor
 @Validated
 public class BeanController {
