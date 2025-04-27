@@ -7,6 +7,7 @@ import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
 import com.gdg.coffee.domain.member.exception.MemberException;
 import com.gdg.coffee.domain.member.repository.MemberRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class CafeServiceImpl implements CafeService {
 
     private final CafeRepository cafeRepository;
@@ -34,15 +36,16 @@ public class CafeServiceImpl implements CafeService {
     @Transactional
     public CafeResponseDto createCafe(Long memberId, CafeRequestDto request) {
         // Member 조회
+        log.info(String.valueOf(memberId));
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
         // MemberRole 체크
-        if(member.getRole() != MemberRole.CAFE) {
+        if (member.getRole() != MemberRole.CAFE) {
             throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
         }
-        Cafe cafe = request.toEntity(member);
-        // DB에 저장 및 반환
+        Cafe cafe = request.toEntity(memberId);
+
         Cafe saved = cafeRepository.save(cafe);
         return CafeResponseDto.fromEntity(saved);
     }
@@ -61,12 +64,21 @@ public class CafeServiceImpl implements CafeService {
     @Override
     @Transactional(readOnly = true)
     public Page<CafeResponseDto> getAllCafes(Pageable pageable) {
-        throw new UnsupportedOperationException("getCafesByMember is not implemented yet");
+        Page<Cafe> cafes = cafeRepository.findAll(pageable);
+        return cafes.map(CafeResponseDto::fromEntity);
     }
 
     /** 정보 수정 */
     @Override
     public CafeResponseDto updateCafe(Long cafeId, Long memberId, CafeRequestDto requestDto) {
-        throw new UnsupportedOperationException("updateCafe is not implemented yet");
+        Cafe cafe = cafeRepository.findById(cafeId)
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        if (!cafe.getMemberId().equals(memberId)) {
+            throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
+        }
+
+        cafe.update(requestDto);          // dto 필드가 null 이면 유지
+        return CafeResponseDto.fromEntity(cafe);
     }
 }

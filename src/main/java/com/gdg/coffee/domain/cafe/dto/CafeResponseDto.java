@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 // 카페 정보 응답 DTO
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CafeResponseDto {
@@ -25,16 +26,13 @@ public class CafeResponseDto {
     private String openHours;
     private String description;
 
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-
     /**
      * Entity → DTO 변환 메서드
      */
     public static CafeResponseDto fromEntity(Cafe cafe) {
         return CafeResponseDto.builder()
                 .cafeId(cafe.getCafeId())
-                .memberId(cafe.getMember().getId())
+                .memberId(cafe.getMemberId())
                 .name(cafe.getName())
                 .address(cafe.getAddress())
                 .detailAddress(cafe.getDetailAddress())
@@ -44,8 +42,6 @@ public class CafeResponseDto {
                 .collectSchedule(cafe.getCollectSchedule())
                 .openHours(cafe.getOpenHours())
                 .description(cafe.getDescription())
-                .createdDate(cafe.getCreatedDate())
-                .modifiedDate(cafe.getModifiedDate())
                 .build();
     }
 }

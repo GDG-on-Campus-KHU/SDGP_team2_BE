@@ -20,9 +20,8 @@ public class Cafe extends BaseTime {
     @Column(name = "cafe_id")
     private Long cafeId;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
 
     @Column(nullable = false, length = 255)
     private String name;

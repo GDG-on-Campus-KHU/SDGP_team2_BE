@@ -1,4 +1,3 @@
-// src/main/java/com/gdg/coffee/cafe/controller/CafeController.java
 package com.gdg.coffee.domain.cafe.controller;
 
 import com.gdg.coffee.domain.cafe.dto.CafeRequestDto;
@@ -8,12 +7,15 @@ import com.gdg.coffee.domain.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/cafes")
@@ -38,7 +40,8 @@ public class CafeController {
 
     /** 3. 전체 카페 목록 조회 (200 OK)*/
     @GetMapping
-    public ApiResponse<Page<CafeResponseDto>> getAllCafes(Pageable pageable) {
+    public ApiResponse<Page<CafeResponseDto>> getAllCafes(
+            @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<CafeResponseDto> page = cafeService.getAllCafes(pageable);
         return ApiResponse.success(CafeSuccessCode.CAFE_GET_LIST_SUCCESS, page);
     }
