@@ -5,6 +5,7 @@ import com.gdg.coffee.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -38,11 +39,10 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/h2/**",
-                                        "/error",
-
-                                        "/api/cafes/**"
+                                        "/error"
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
+                                .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                                 //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
