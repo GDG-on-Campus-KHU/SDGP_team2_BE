@@ -5,6 +5,7 @@ import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
 import com.gdg.coffee.domain.bean.exception.BeanSuccessCode;
 import com.gdg.coffee.domain.bean.service.BeanService;
 import com.gdg.coffee.global.common.response.ApiResponse;
+import com.gdg.coffee.global.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +24,8 @@ public class BeanController {
     /** 1. 원두 등록 (201 CREATED) */
     @PostMapping
     public ApiResponse<BeanResponseDto> createBean(@Valid @RequestBody BeanRequestDto requestDto) {
-        BeanResponseDto created = beanService.createBean(requestDto);
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        BeanResponseDto created = beanService.createBean(memberId, requestDto);
         return ApiResponse.success(BeanSuccessCode.BEAN_CREATE_SUCCESS, created);
     }
 

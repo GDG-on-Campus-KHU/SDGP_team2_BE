@@ -36,7 +36,6 @@ public class CafeServiceImpl implements CafeService {
     @Transactional
     public CafeResponseDto createCafe(Long memberId, CafeRequestDto request) {
         // Member 조회
-        log.info(String.valueOf(memberId));
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
@@ -44,6 +43,13 @@ public class CafeServiceImpl implements CafeService {
         if (member.getRole() != MemberRole.CAFE) {
             throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
         }
+
+        // 카페 중복 체크
+        cafeRepository.findByMemberId(memberId)
+                .ifPresent(cafe -> {
+                    throw new CafeException(CafeErrorCode.CAFE_DUPLICATE);
+                });
+
         Cafe cafe = request.toEntity(memberId);
 
         Cafe saved = cafeRepository.save(cafe);

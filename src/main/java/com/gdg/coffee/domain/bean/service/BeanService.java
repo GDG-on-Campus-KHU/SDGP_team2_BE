@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BeanService {
     /** 원두 등록 */
-    BeanResponseDto createBean(BeanRequestDto requestDto);
+    BeanResponseDto createBean(Long memberId, BeanRequestDto requestDto);
 
     /** 카페별 원두 목록 조회 */
     List<BeanResponseDto> getBeansByCafeId(Long cafeId);
