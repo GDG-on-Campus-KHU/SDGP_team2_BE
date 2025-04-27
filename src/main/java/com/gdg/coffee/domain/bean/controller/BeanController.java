@@ -50,7 +50,8 @@ public class BeanController {
     /** 4. 원두 삭제 (200 OK) */
     @DeleteMapping("/{beanId}")
     public ApiResponse<Void> deleteBean(@PathVariable Long beanId) {
-        beanService.deleteBean(beanId);
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        beanService.deleteBean(beanId, memberId);
         return ApiResponse.success(BeanSuccessCode.BEAN_DELETE_SUCCESS);
     }
 }

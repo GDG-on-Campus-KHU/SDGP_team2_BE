@@ -16,5 +16,5 @@ public interface BeanService {
     BeanResponseDto updateBean(Long beanId, Long memberId, BeanRequestDto requestDto);
 
     /** 원두 삭제 */
-    void deleteBean(Long beanId);
+    void deleteBean(Long beanId, Long memberId);
 }

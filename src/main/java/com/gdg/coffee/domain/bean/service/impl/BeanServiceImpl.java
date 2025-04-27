@@ -88,11 +88,19 @@ public class BeanServiceImpl implements BeanService {
 
     /** 4. 원두 삭제 */
     @Override
-    public void deleteBean(Long beanId) {
+    public void deleteBean(Long beanId, Long memberId) {
+        // Bean 조회
         Bean bean = beanRepository.findById(beanId)
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
-        //추후 권한 검증 추가
+        // Bean 이 속한 카페 조회
+        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // 권한 검사
+        if (!cafe.getMemberId().equals(memberId)) {
+            throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
+        }
 
         beanRepository.delete(bean);
     }
