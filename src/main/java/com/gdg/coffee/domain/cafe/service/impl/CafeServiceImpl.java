@@ -3,6 +3,7 @@ package com.gdg.coffee.domain.cafe.service.impl;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
 import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
 import com.gdg.coffee.domain.member.exception.MemberException;
 import com.gdg.coffee.domain.member.repository.MemberRepository;
@@ -31,11 +32,15 @@ public class CafeServiceImpl implements CafeService {
     /** 카페 등록*/
     @Override
     @Transactional
-    public CafeResponseDto  createCafe(CafeRequestDto request) {
+    public CafeResponseDto createCafe(Long memberId, CafeRequestDto request) {
         // Member 조회
-        Member member = memberRepository.findById(request.getMemberId())
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
+        // MemberRole 체크
+        if(member.getRole() != MemberRole.CAFE) {
+            throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
+        }
         Cafe cafe = request.toEntity(member);
         // DB에 저장 및 반환
         Cafe saved = cafeRepository.save(cafe);
@@ -52,7 +57,7 @@ public class CafeServiceImpl implements CafeService {
         return CafeResponseDto.fromEntity(cafe);
     }
 
-    /** 회원이 보유한 카페 목록(페이지네이션) */
+    /** 카페 목록(페이지네이션) */
     @Override
     @Transactional(readOnly = true)
     public Page<CafeResponseDto> getAllCafes(Pageable pageable) {
@@ -61,7 +66,7 @@ public class CafeServiceImpl implements CafeService {
 
     /** 정보 수정 */
     @Override
-    public CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto) {
+    public CafeResponseDto updateCafe(Long cafeId, Long memberId, CafeRequestDto requestDto) {
         throw new UnsupportedOperationException("updateCafe is not implemented yet");
     }
 }

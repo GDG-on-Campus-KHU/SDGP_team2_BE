@@ -6,6 +6,7 @@ import com.gdg.coffee.domain.cafe.dto.CafeResponseDto;
 import com.gdg.coffee.domain.cafe.exception.CafeSuccessCode;
 import com.gdg.coffee.domain.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
+import com.gdg.coffee.global.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,8 @@ public class CafeController {
     /** 1. 카페 생성 (201 Created) */
     @PostMapping
     public ApiResponse<CafeResponseDto> createCafe(@RequestBody @Valid CafeRequestDto requestDto) {
-        CafeResponseDto created = cafeService.createCafe(requestDto);
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        CafeResponseDto created = cafeService.createCafe(memberId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_CREATE_SUCCESS, created);
     }
 
@@ -45,8 +47,9 @@ public class CafeController {
     @PutMapping("/{cafeId}")
     public ApiResponse<CafeResponseDto> updateCafe(
             @PathVariable Long cafeId,
-            @RequestBody @Valid CafeRequestDto requestDto) {
-        CafeResponseDto updated = cafeService.updateCafe(cafeId, requestDto);
+            @RequestBody CafeRequestDto requestDto) {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        CafeResponseDto updated = cafeService.updateCafe(cafeId, memberId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }
 }

@@ -11,9 +11,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CafeRequestDto {
 
-    @NotNull(message = "소유 회원 ID는 필수입니다.")
-    private Long memberId;
-
     @NotBlank @Size(max = 255)
     private String name;
 

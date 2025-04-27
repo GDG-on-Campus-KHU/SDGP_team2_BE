@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 public interface CafeService {
 
     /** 카페 신규 등록 */
-    CafeResponseDto createCafe(CafeRequestDto requestDto);
+    CafeResponseDto createCafe(Long memberId, CafeRequestDto requestDto);
 
     /** 단건 조회 */
     CafeResponseDto getCafe(Long cafeId);
@@ -17,5 +17,5 @@ public interface CafeService {
     Page<CafeResponseDto> getAllCafes(Pageable pageable);
 
     /** 정보 수정 */
-    CafeResponseDto updateCafe(Long cafeId, CafeRequestDto requestDto);
+    CafeResponseDto updateCafe(Long cafeId, Long memberId, CafeRequestDto requestDto);
 }

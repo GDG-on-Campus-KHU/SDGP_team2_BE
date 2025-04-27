@@ -38,7 +38,9 @@ public class SecurityConfig {
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/h2/**",
-                                        "/error"
+                                        "/error",
+
+                                        "/api/cafes/**"
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 //.requestMatchers("/**").permitAll()     // 임시
