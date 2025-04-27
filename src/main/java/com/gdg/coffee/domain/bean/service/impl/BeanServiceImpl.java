@@ -68,12 +68,19 @@ public class BeanServiceImpl implements BeanService {
 
     /** 3. 원두 정보 수정 */
     @Override
-    public BeanResponseDto updateBean(Long beanId, BeanRequestDto requestDto) {
+    public BeanResponseDto updateBean(Long beanId, Long memberId, BeanRequestDto requestDto) {
+        // Bean 조회
         Bean bean = beanRepository.findById(beanId)
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
-        // 추후 권한 검증 로직 수정
+        // Bean 이 속한 카페 조회
+        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
+        // 권한 확인
+        if (!cafe.getMemberId().equals(memberId)) {
+            throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
+        }
 
         bean.update(requestDto);
         return BeanResponseDto.fromEntity(bean);

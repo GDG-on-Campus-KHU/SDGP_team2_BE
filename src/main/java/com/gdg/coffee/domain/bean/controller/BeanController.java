@@ -41,7 +41,9 @@ public class BeanController {
     public ApiResponse<BeanResponseDto> updateBean(
             @PathVariable Long beanId,
             @RequestBody BeanRequestDto requestDto) {
-        BeanResponseDto updated = beanService.updateBean(beanId, requestDto);
+
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        BeanResponseDto updated = beanService.updateBean(beanId, memberId, requestDto);
         return ApiResponse.success(BeanSuccessCode.BEAN_UPDATE_SUCCESS, updated);
     }
 

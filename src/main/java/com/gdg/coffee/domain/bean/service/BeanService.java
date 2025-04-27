@@ -13,7 +13,7 @@ public interface BeanService {
     List<BeanResponseDto> getBeansByCafeId(Long cafeId);
 
     /** 원두 정보 수정 */
-    BeanResponseDto updateBean(Long beanId, BeanRequestDto requestDto);
+    BeanResponseDto updateBean(Long beanId, Long memberId, BeanRequestDto requestDto);
 
     /** 원두 삭제 */
     void deleteBean(Long beanId);
