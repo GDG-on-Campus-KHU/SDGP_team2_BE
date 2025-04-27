@@ -5,6 +5,7 @@ import com.gdg.coffee.domain.bean.dto.BeanResponseDto;
 import com.gdg.coffee.domain.bean.exception.BeanSuccessCode;
 import com.gdg.coffee.domain.bean.service.BeanService;
 import com.gdg.coffee.global.common.response.ApiResponse;
+import com.gdg.coffee.global.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +24,8 @@ public class BeanController {
     /** 1. 원두 등록 (201 CREATED) */
     @PostMapping
     public ApiResponse<BeanResponseDto> createBean(@Valid @RequestBody BeanRequestDto requestDto) {
-        BeanResponseDto created = beanService.createBean(requestDto);
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        BeanResponseDto created = beanService.createBean(memberId, requestDto);
         return ApiResponse.success(BeanSuccessCode.BEAN_CREATE_SUCCESS, created);
     }
 
@@ -39,14 +41,17 @@ public class BeanController {
     public ApiResponse<BeanResponseDto> updateBean(
             @PathVariable Long beanId,
             @RequestBody BeanRequestDto requestDto) {
-        BeanResponseDto updated = beanService.updateBean(beanId, requestDto);
+
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        BeanResponseDto updated = beanService.updateBean(beanId, memberId, requestDto);
         return ApiResponse.success(BeanSuccessCode.BEAN_UPDATE_SUCCESS, updated);
     }
 
     /** 4. 원두 삭제 (200 OK) */
     @DeleteMapping("/{beanId}")
     public ApiResponse<Void> deleteBean(@PathVariable Long beanId) {
-        beanService.deleteBean(beanId);
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        beanService.deleteBean(beanId, memberId);
         return ApiResponse.success(BeanSuccessCode.BEAN_DELETE_SUCCESS);
     }
 }

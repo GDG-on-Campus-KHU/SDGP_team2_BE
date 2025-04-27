@@ -1,6 +1,7 @@
 package com.gdg.coffee.domain.bean.dto;
 
 import com.gdg.coffee.domain.bean.domain.Bean;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,18 +23,15 @@ public class BeanRequestDto {
 
     private String description;
 
-    @NotNull
-    private Long cafeId;
-
     /**
      * DTO -> Entity 변환
      */
-    public Bean toEntity() {
+    public Bean toEntity(Cafe cafe) {
         return Bean.builder()
                 .name(name)
                 .origin(origin)
                 .description(description)
-                .cafeId(cafeId)
+                .cafeId(cafe.getCafeId())
                 .build();
     }
 }

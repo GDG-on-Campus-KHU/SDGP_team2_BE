@@ -7,9 +7,15 @@ import com.gdg.coffee.domain.bean.exception.BeanErrorCode;
 import com.gdg.coffee.domain.bean.exception.BeanException;
 import com.gdg.coffee.domain.bean.repository.BeanRepository;
 import com.gdg.coffee.domain.bean.service.BeanService;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
 import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
+import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.domain.MemberRole;
+import com.gdg.coffee.domain.member.exception.MemberErrorCode;
+import com.gdg.coffee.domain.member.exception.MemberException;
+import com.gdg.coffee.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,16 +30,26 @@ public class BeanServiceImpl implements BeanService {
 
     private final BeanRepository beanRepository;
     private final CafeRepository cafeRepository;
+    private final MemberRepository memberRepository;
 
     /** 1. 원두 등록 */
     @Override
-    public BeanResponseDto createBean(BeanRequestDto dto) {
-        cafeRepository.findById(dto.getCafeId())
+    public BeanResponseDto createBean(Long memberId, BeanRequestDto dto) {
+        // Member 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // MemberRole 체크
+        if (member.getRole() != MemberRole.CAFE){
+            throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
+        }
+
+        // 카페 조회
+        Cafe cafe = cafeRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
-        // 추후 권한 검증 추가
-
-        Bean saved = beanRepository.save(dto.toEntity());
+        Bean bean = dto.toEntity(cafe);
+        Bean saved = beanRepository.save(bean);
         return BeanResponseDto.fromEntity(saved);
     }
 
@@ -52,12 +68,17 @@ public class BeanServiceImpl implements BeanService {
 
     /** 3. 원두 정보 수정 */
     @Override
-    public BeanResponseDto updateBean(Long beanId, BeanRequestDto requestDto) {
+    public BeanResponseDto updateBean(Long beanId, Long memberId, BeanRequestDto requestDto) {
+        // Bean 조회
         Bean bean = beanRepository.findById(beanId)
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
-        // 추후 권한 검증 로직 수정
-        if (!bean.getCafeId().equals(requestDto.getCafeId())) {
+        // Bean 이 속한 카페 조회
+        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // 권한 확인
+        if (!cafe.getMemberId().equals(memberId)) {
             throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
         }
 
@@ -67,11 +88,19 @@ public class BeanServiceImpl implements BeanService {
 
     /** 4. 원두 삭제 */
     @Override
-    public void deleteBean(Long beanId) {
+    public void deleteBean(Long beanId, Long memberId) {
+        // Bean 조회
         Bean bean = beanRepository.findById(beanId)
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
-        //추후 권한 검증 추가
+        // Bean 이 속한 카페 조회
+        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        // 권한 검사
+        if (!cafe.getMemberId().equals(memberId)) {
+            throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
+        }
 
         beanRepository.delete(bean);
     }

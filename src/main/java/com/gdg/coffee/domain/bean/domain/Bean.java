@@ -43,6 +43,5 @@ public class Bean extends BaseTime {
         if (dto.getName() != null) this.name = dto.getName();
         if (dto.getOrigin() != null) this.origin = dto.getOrigin();
         if (dto.getDescription() != null) this.description = dto.getDescription();
-        if (dto.getCafeId() != null) this.cafeId = dto.getCafeId();
     }
 }

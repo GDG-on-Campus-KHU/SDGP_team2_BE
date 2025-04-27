@@ -50,6 +50,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(httpServletRequest);
         log.info("BearerToken: {}", token);
 
+        /**
+        * 토큰이 아예 없으면 검증하지 않고 다음 필터로 진행
+        * 로그인 하지 않은 사용자가 접근 할 수 있어야하는 api도 막아버려서 추가
+        */
+        if (token == null) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            return;
+        }
+
         try{
             // 토큰 유효성 검사 및 인증 객체 설정
             if (token != null && jwtTokenProvider.isValidToken(token)){
