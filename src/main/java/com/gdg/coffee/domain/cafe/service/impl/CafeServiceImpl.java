@@ -33,7 +33,6 @@ public class CafeServiceImpl implements CafeService {
 
     /** 카페 등록*/
     @Override
-    @Transactional
     public CafeResponseDto createCafe(Long memberId, CafeRequestDto request) {
         // Member 조회
         Member member = memberRepository.findById(memberId)
