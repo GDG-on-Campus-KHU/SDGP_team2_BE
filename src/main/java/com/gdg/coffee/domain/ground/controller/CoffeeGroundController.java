@@ -1,6 +1,7 @@
 package com.gdg.coffee.domain.ground.controller;
 
 import com.gdg.coffee.domain.ground.dto.*;
+import com.gdg.coffee.domain.ground.exception.CoffeeGroundSuccessCode;
 import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.util.SecurityUtil;
@@ -21,7 +22,9 @@ public class CoffeeGroundController {
     /* 1. 등록 */
     @PostMapping
     public ApiResponse<CoffeeGroundResponseDto> createGround(@RequestBody @Valid CoffeeGroundRequestDto dto) {
-        return null;
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        CoffeeGroundResponseDto created = groundService.createGround(memberId, dto);
+        return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_CREATE_SUCCESS, created);
     }
 
     /* 2. 단건 조회 */
