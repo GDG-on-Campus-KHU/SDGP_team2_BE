@@ -33,7 +33,7 @@ public class CoffeeGroundController {
     /* 3. 목록 (카페별) */
     @GetMapping("/cafe/{cafeId}")
     public ApiResponse<Page<CoffeeGroundResponseDto>>
-    getAllGrounds(@PathVariable Long cafeId, @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
+    getGroundsOfCafe(@PathVariable Long cafeId, @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         return null;
     }
 

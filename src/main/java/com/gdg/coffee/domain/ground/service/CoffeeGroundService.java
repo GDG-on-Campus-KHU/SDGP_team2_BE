@@ -8,7 +8,7 @@ public interface CoffeeGroundService {
     /** 원두 등록 */
     CoffeeGroundResponseDto createGround(Long memberId, CoffeeGroundRequestDto dto);
 
-    /** 원두 정보 수정 */
+    /** 원두 단건 조회 */
     CoffeeGroundResponseDto getGround(Long groundId);
 
     /** 카페별 원두 목록 조회 */
