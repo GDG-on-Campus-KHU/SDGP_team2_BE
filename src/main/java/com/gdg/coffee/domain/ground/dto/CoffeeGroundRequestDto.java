@@ -9,11 +9,9 @@ import lombok.*;
 @NoArgsConstructor @AllArgsConstructor
 public class CoffeeGroundRequestDto {
 
-    @NotNull private Float amount;
-    @NotBlank private String collectedDate;
+    @NotNull @Positive private Float amount;
     @Size(max = 2028) private String note;
     @NotNull private Long beanId;
-    private CoffeeGroundStatus status = CoffeeGroundStatus.WAITING;
 
     public CoffeeGround toEntity(Long cafeId) {
         return CoffeeGround.builder()
@@ -22,7 +20,7 @@ public class CoffeeGroundRequestDto {
                 .totalAmount(amount)
                 .remainingAmount(0F)
                 .note(note)
-                .status(status)
+                .status(CoffeeGroundStatus.WAITING)
                 .build();
     }
 }
