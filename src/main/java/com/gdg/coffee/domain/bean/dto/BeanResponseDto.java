@@ -1,6 +1,6 @@
-package com.gdg.coffee.bean.dto;
+package com.gdg.coffee.domain.bean.dto;
 
-import com.gdg.coffee.bean.domain.Bean;
+import com.gdg.coffee.domain.bean.domain.Bean;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

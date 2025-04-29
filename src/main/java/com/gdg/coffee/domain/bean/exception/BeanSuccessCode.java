@@ -1,4 +1,4 @@
-package com.gdg.coffee.global.common.response.bean;
+package com.gdg.coffee.domain.bean.exception;
 
 import com.gdg.coffee.global.common.type.SuccessResponse;
 import org.springframework.http.HttpStatus;

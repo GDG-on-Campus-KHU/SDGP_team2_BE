@@ -1,9 +1,8 @@
-package com.gdg.coffee.bean.domain;
+package com.gdg.coffee.domain.bean.domain;
 
-import com.gdg.coffee.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
 import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.*;
 
 /**
@@ -44,6 +43,5 @@ public class Bean extends BaseTime {
         if (dto.getName() != null) this.name = dto.getName();
         if (dto.getOrigin() != null) this.origin = dto.getOrigin();
         if (dto.getDescription() != null) this.description = dto.getDescription();
-        if (dto.getCafeId() != null) this.cafeId = dto.getCafeId();
     }
 }
