@@ -1,6 +1,8 @@
 package com.gdg.coffee.global.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdg.coffee.domain.auth.exception.AuthErrorCode;
+import com.gdg.coffee.domain.auth.exception.AuthException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -29,13 +31,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // JWT 검증을 제외할 경로
     private static final List<String> EXCLUDE_URLS = Arrays.asList(
-            "/swagger-ui", "/v3/api-docs", "/h2", "/api/auth/register","/api/auth/login","/login"
+            "/swagger-ui",
+            "/v3/api-docs",
+            "/h2",
+            "/api/auth/register",
+            "/api/auth/login","/login",
+            "/api/auth/refresh"
     );
 
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = httpServletRequest.getRequestURI();
@@ -50,27 +58,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String token = resolveToken(httpServletRequest);
         log.info("BearerToken: {}", token);
 
-        try{
-            // 토큰 유효성 검사 및 인증 객체 설정
-            if (token != null && jwtTokenProvider.isValidToken(token)){
-                var authentication = jwtTokenProvider.getAuthentication(token);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-                log.info("Authentication set in SecurityContext.");
-                System.out.println(authentication);
-            } else {
-                setErrorResponse(httpServletResponse, HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.");
-                return;
+        try {
+            if (token != null) {
+                // 토큰이 있을 때만 검증하고 인증 객체 설정
+                if (jwtTokenProvider.isValidToken(token)) {
+                    var authentication = jwtTokenProvider.getAuthentication(token);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    log.info("Authentication set in SecurityContext.");
+                } else {
+                    throw new AuthException(AuthErrorCode.INVALID_REFRESH_TOKEN);
+                }
             }
+            // token == null이면 그냥 넘어감
             filterChain.doFilter(httpServletRequest, httpServletResponse);
 
         } catch (ExpiredJwtException e) {
-            setErrorResponse(httpServletResponse,HttpStatus.UNAUTHORIZED,"토큰이 만료되었습니다.");
+            throw new AuthException(AuthErrorCode.TOKEN_EXPIRED);
         } catch (UnsupportedJwtException | MalformedJwtException e) {
-            setErrorResponse(httpServletResponse, HttpStatus.BAD_REQUEST, "유효하지 않은 토큰 형식입니다.");
+            throw new AuthException(AuthErrorCode.INVALID_TOKEN_FORMAT);
         } catch (Exception e) {
-            setErrorResponse(httpServletResponse, HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류가 발생했습니다.");
+            throw new AuthException(AuthErrorCode.SERVER_ERROR);
         }
     }
+
 
     private void setErrorResponse(HttpServletResponse response, HttpStatus status, String message) throws IOException {
         response.setStatus(status.value()); // HTTP 상태 코드 설정
