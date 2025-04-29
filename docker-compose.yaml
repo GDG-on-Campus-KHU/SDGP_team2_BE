@@ -9,7 +9,7 @@ services:
       - db
       - redis
     volumes:
-      - ./application.yaml:/app/application.yaml
+      - /home/andeehyeon/application.yaml:/app/src/main/resources/application.yaml
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
