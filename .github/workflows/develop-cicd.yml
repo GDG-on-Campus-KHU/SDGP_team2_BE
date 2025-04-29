@@ -24,7 +24,10 @@ jobs:
       - name: Create application.yaml
         run: |
           mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YAML }}" > src/main/resources/application.yaml
+          cat <<EOF > src/main/resources/application.yaml
+          ${{ secrets.APPLICATION_YAML }}
+          EOF
+
       # Gradle 빌드
       - name: Build with Gradle
         run: |
