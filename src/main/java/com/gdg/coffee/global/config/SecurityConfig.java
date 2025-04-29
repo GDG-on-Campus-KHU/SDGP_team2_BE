@@ -34,13 +34,15 @@ public class SecurityConfig {
                                         "/api/users/login/**",
                                         "/api/auth/register",
                                         "/api/auth/login",
-
+                                        "/api/auth/refresh",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/h2/**",
-                                        "/error"
+                                        "/error",
+                                        "/api/auth/login/google",
+                                        "/oauth/**"
                                 ).permitAll()
-                                .requestMatchers("/api/member/info").hasRole("USER")
+                                .requestMatchers("/api/member/info").hasAnyRole("USER","CAFE")
                                 //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
