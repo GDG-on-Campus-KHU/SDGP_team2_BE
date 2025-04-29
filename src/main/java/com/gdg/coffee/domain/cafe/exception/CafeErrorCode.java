@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 public enum CafeErrorCode implements ErrorResponse {
     CAFE_NOT_FOUND      (HttpStatus.NOT_FOUND,    "CAFE_NOT_FOUND",      "존재하지 않는 카페입니다."),
     CAFE_INVALID_INPUT  (HttpStatus.BAD_REQUEST,  "CAFE_INVALID_INPUT",  "잘못된 카페 요청입니다."),
-    CAFE_FORBIDDEN      (HttpStatus.FORBIDDEN,    "CAFE_FORBIDDEN",      "이 카페에 대한 권한이 없습니다.");
+    CAFE_FORBIDDEN      (HttpStatus.FORBIDDEN,    "CAFE_FORBIDDEN",      "이 카페에 대한 권한이 없습니다."),
+    CAFE_DUPLICATE      (HttpStatus.FORBIDDEN,    "CAFE_DUPLICATE",      "이미 카페가 존재합니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
