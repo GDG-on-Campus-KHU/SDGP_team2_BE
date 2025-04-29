@@ -38,7 +38,7 @@ jobs:
         with:
           config-file: .github/labels.yaml
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # DockerHub 로그인 (Push 시 반드시 필요)
       - name: Log in to DockerHub
