@@ -24,10 +24,7 @@ jobs:
       - name: Create application.yaml
         run: |
           mkdir -p src/main/resources
-          cat <<EOF > src/main/resources/application.yaml
-          ${{ secrets.APPLICATION_YAML }}
-          EOF
-
+          echo "${{ secrets.APPLICATION_YAML }}" > src/main/resources/application.yaml
       # Gradle 빌드
       - name: Build with Gradle
         run: |
@@ -56,7 +53,7 @@ jobs:
           host: ${{ secrets.GCP_HOST }}
           username: ${{ secrets.GCP_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
-          source: "docker-compose.yaml,.env"
+          source: "docker-compose.yaml,.env,src/main/resources/application.yaml"
           target: "~"
 
       # Buildx 생성 및 build & push
