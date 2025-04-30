@@ -33,12 +33,12 @@ jobs:
           chmod +x ./gradlew
 
       # 깃허브 label 설정
-      - name: Sync labels
-        uses: EndBug/label-sync@v2
-        with:
-          config-file: .github/labels.yaml
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Sync labels
+#        uses: EndBug/label-sync@v2
+#        with:
+#          config-file: .github/labels.yml
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       # DockerHub 로그인 (Push 시 반드시 필요)
       - name: Log in to DockerHub
@@ -53,7 +53,7 @@ jobs:
           host: ${{ secrets.GCP_HOST }}
           username: ${{ secrets.GCP_USER }}
           key: ${{ secrets.GCP_SSH_KEY }}
-          source: "docker-compose.yaml,.env"
+          source: "docker-compose.yaml,.env,src/main/resources/application.yaml"
           target: "~"
 
       # Buildx 생성 및 build & push
