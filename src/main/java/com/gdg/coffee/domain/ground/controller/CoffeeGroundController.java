@@ -12,6 +12,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/coffee_grounds")
 @RequiredArgsConstructor
@@ -36,9 +38,10 @@ public class CoffeeGroundController {
 
     /* 3. 목록 (카페별) */
     @GetMapping("/cafe/{cafeId}")
-    public ApiResponse<Page<CoffeeGroundResponseDto>>
-    getGroundsOfCafe(@PathVariable Long cafeId, @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
-        return null;
+    public ApiResponse<List<CoffeeGroundResponseDto>>
+    getGroundsOfCafe(@PathVariable Long cafeId) {
+        List<CoffeeGroundResponseDto> response = groundService.getGroundsOfCafe(cafeId);
+        return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_LIST_SUCCESS, response);
     }
 
     /* 4. 삭제 */
