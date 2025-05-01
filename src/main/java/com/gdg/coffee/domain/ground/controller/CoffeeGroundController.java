@@ -30,7 +30,8 @@ public class CoffeeGroundController {
     /* 2. 단건 조회 */
     @GetMapping("/{groundId}")
     public ApiResponse<CoffeeGroundResponseDto> getGround(@PathVariable Long groundId) {
-        return null;
+        CoffeeGroundResponseDto response = groundService.getGround(groundId);
+        return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_GET_SUCCESS, response);
     }
 
     /* 3. 목록 (카페별) */

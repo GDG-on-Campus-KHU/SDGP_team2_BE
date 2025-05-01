@@ -30,7 +30,6 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
     private final CafeRepository cafeRepo;
     private final BeanRepository beanRepo;
 
-    /* 1) 생성 ------------------------------------------------ */
     @Override
     public CoffeeGroundResponseDto createGround(Long memberId,
                                                 CoffeeGroundRequestDto dto) {
@@ -55,7 +54,10 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
     @Override
     @Transactional(readOnly = true)
     public CoffeeGroundResponseDto getGround(Long groundId){
-        return null;
+        CoffeeGround ground = groundRepo.findById(groundId)
+                .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_NOT_FOUND));
+
+        return CoffeeGroundResponseDto.fromEntity(ground);
     }
 
     @Override
