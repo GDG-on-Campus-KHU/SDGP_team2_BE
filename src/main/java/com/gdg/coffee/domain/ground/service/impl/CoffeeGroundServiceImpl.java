@@ -2,11 +2,9 @@ package com.gdg.coffee.domain.ground.service.impl;
 
 import com.gdg.coffee.domain.bean.domain.Bean;
 import com.gdg.coffee.domain.bean.exception.BeanErrorCode;
-import com.gdg.coffee.domain.bean.exception.BeanException;
 import com.gdg.coffee.domain.bean.repository.BeanRepository;
 import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
-import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.dto.CoffeeGroundRequestDto;
@@ -17,10 +15,11 @@ import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
 import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service @RequiredArgsConstructor @Slf4j
 @Transactional
@@ -62,8 +61,13 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId, Pageable pageable){
-        return null;
+    public List<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId){
+        cafeRepo.findById(cafeId)
+                .orElseThrow(() -> new CoffeeGroundException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        return groundRepo.findAllByCafeId(cafeId).stream()
+                .map(CoffeeGroundResponseDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override

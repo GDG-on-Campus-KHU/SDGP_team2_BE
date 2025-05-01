@@ -1,8 +1,7 @@
 package com.gdg.coffee.domain.ground.service;
 
 import com.gdg.coffee.domain.ground.dto.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
 public interface CoffeeGroundService {
     /** 원두 등록 */
@@ -12,7 +11,7 @@ public interface CoffeeGroundService {
     CoffeeGroundResponseDto getGround(Long groundId);
 
     /** 카페별 원두 목록 조회 */
-    Page<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId, Pageable pageable);
+    List<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId);
 
     /** 원두 삭제 */
     void deleteGround(Long groundId, Long memberId);
