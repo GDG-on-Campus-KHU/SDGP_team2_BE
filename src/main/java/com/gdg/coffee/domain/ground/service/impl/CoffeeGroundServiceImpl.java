@@ -72,6 +72,16 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
 
     @Override
     public void deleteGround(Long groundId, Long memberId){
+        CoffeeGround ground = groundRepo.findById(groundId)
+                .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_NOT_FOUND));
 
+        Cafe cafe = cafeRepo.findById(memberId)
+                .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN));
+
+        if(!ground.getCafeId().equals(cafe.getCafeId())) {
+            throw new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN);
+        }
+
+        groundRepo.delete(ground);
     }
 }

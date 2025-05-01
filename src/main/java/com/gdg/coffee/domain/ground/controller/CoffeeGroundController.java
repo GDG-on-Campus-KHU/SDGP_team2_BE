@@ -47,6 +47,8 @@ public class CoffeeGroundController {
     /* 4. 삭제 */
     @DeleteMapping("/{groundId}")
     public ApiResponse<Void> deleteGround(@PathVariable Long groundId) {
-        return null;
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        groundService.deleteGround(groundId, memberId);
+        return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_DELETE_SUCCESS);
     }
 }
