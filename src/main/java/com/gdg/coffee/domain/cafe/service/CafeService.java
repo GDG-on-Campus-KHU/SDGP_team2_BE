@@ -17,5 +17,5 @@ public interface CafeService {
     Page<CafeResponseDto> getAllCafes(Pageable pageable);
 
     /** 정보 수정 */
-    CafeResponseDto updateCafe(Long cafeId, Long memberId, CafeRequestDto requestDto);
+    CafeResponseDto updateCafe(Long memberId, CafeRequestDto requestDto);
 }

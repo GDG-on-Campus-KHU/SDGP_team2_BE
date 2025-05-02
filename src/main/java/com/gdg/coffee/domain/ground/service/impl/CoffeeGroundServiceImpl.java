@@ -14,6 +14,10 @@ import com.gdg.coffee.domain.ground.exception.CoffeeGroundErrorCode;
 import com.gdg.coffee.domain.ground.exception.CoffeeGroundException;
 import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
 import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
+import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.exception.MemberErrorCode;
+import com.gdg.coffee.domain.member.exception.MemberException;
+import com.gdg.coffee.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +33,7 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
     private final CoffeeGroundRepository groundRepo;
     private final CafeRepository cafeRepo;
     private final BeanRepository beanRepo;
+    private final MemberRepository memberRepository;
 
     @Override
     public CoffeeGroundResponseDto createGround(Long memberId,
@@ -62,11 +67,13 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId){
-        cafeRepo.findById(cafeId)
+    public List<CoffeeGroundResponseDto> getGroundsOfCafe(Long memberId){
+        memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        Cafe cafe = cafeRepo.findByMemberId(memberId)
                 .orElseThrow(() -> new CoffeeGroundException(CafeErrorCode.CAFE_NOT_FOUND));
 
-        return groundRepo.findAllByCafeId(cafeId).stream()
+        return groundRepo.findAllByCafeId(cafe.getId()).stream()
                 .map(CoffeeGroundResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }

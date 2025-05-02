@@ -6,6 +6,8 @@ import com.gdg.coffee.domain.cafe.exception.CafeSuccessCode;
 import com.gdg.coffee.domain.cafe.service.CafeService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.util.SecurityUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+@Tag(name = "Cafe", description = "카페 관련 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,12 @@ public class CafeController {
 
     /** 1. 카페 생성 (201 Created) */
     @PostMapping
+    @Operation(summary = "[구현완료] 카페 등록", description = """
+        ## 카페 사용자로 로그인한 회원이 카페를 등록합니다.
+        - 요청 본문에는 카페 이름, 주소, 상세주소, 연락처, 영업시간, 설명, 수거 일정 등이 포함됩니다.
+        - 로그인한 회원의 memberId를 기반으로 카페가 등록됩니다.
+        - 한 명의 회원은 하나의 카페만 등록할 수 있습니다.
+        """)
     public ApiResponse<CafeResponseDto> createCafe(@RequestBody @Valid CafeRequestDto requestDto) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         CafeResponseDto created = cafeService.createCafe(memberId, requestDto);
@@ -33,6 +42,11 @@ public class CafeController {
 
     /** 2. 단건 조회 (200 OK) */
     @GetMapping("/{cafeId}")
+    @Operation(summary = "[구현완료] 카페 단건 조회", description = """
+        ## 특정 ID에 해당하는 카페 정보를 조회합니다.
+        - 누구나 접근 가능하며, 카페 상세 정보를 확인할 수 있습니다.
+        - 카페 ID는 URL 경로 변수로 전달됩니다.
+        """)
     public ApiResponse<CafeResponseDto> getCafe(@PathVariable Long cafeId) {
         CafeResponseDto dto = cafeService.getCafe(cafeId);
         return ApiResponse.success(CafeSuccessCode.CAFE_GET_SUCCESS, dto);
@@ -40,6 +54,11 @@ public class CafeController {
 
     /** 3. 전체 카페 목록 조회 (200 OK)*/
     @GetMapping
+    @Operation(summary = "[구현완료] 전체 카페 목록 조회", description = """
+        ## 등록된 모든 카페 목록을 조회합니다.
+        - 페이징 처리를 지원하며, size 기본값은 전체 목록입니다.
+        - 누구나 접근 가능합니다.
+        """)
     public ApiResponse<Page<CafeResponseDto>> getAllCafes(
             @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
         Page<CafeResponseDto> page = cafeService.getAllCafes(pageable);
@@ -47,12 +66,15 @@ public class CafeController {
     }
 
     /** 4. 정보 수정 (200 OK) */
-    @PutMapping("/{cafeId}")
-    public ApiResponse<CafeResponseDto> updateCafe(
-            @PathVariable Long cafeId,
-            @RequestBody CafeRequestDto requestDto) {
+    @PutMapping
+    @Operation(summary = "[구현완료] 카페 정보 수정", description = """
+        ## 로그인한 카페 사용자가 자신의 카페 정보를 수정합니다.
+        - 로그인된 사용자 정보(memberId)를 기준으로 본인의 카페를 조회 후 수정합니다.
+        - 입력된 필드 중 null이 아닌 값만 수정됩니다.
+        """)
+    public ApiResponse<CafeResponseDto> updateCafe(@RequestBody CafeRequestDto requestDto) {
         Long memberId = SecurityUtil.getCurrentMemberId();
-        CafeResponseDto updated = cafeService.updateCafe(cafeId, memberId, requestDto);
+        CafeResponseDto updated = cafeService.updateCafe(memberId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }
 }
