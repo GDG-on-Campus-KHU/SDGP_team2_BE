@@ -45,7 +45,8 @@ public class SecurityConfig {
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/beans**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/beans/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/grounds/**").permitAll()
                                 //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
