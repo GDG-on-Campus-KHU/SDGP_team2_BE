@@ -75,13 +75,15 @@ public class CafeServiceImpl implements CafeService {
 
     /** 정보 수정 */
     @Override
-    public CafeResponseDto updateCafe(Long cafeId, Long memberId, CafeRequestDto requestDto) {
-        Cafe cafe = cafeRepository.findById(cafeId)
-                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+    public CafeResponseDto updateCafe(Long memberId, CafeRequestDto requestDto) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
-        if (!cafe.getMember().getId().equals(memberId)) {
+        if(member.getRole() != MemberRole.CAFE){
             throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
         }
+        Cafe cafe = cafeRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         cafe.update(requestDto);          // dto 필드가 null 이면 유지
         return CafeResponseDto.fromEntity(cafe);

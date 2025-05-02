@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,12 +57,12 @@ public class BeanServiceImpl implements BeanService {
     /** 2. 카페별 원두 목록 조회 */
     @Override
     @Transactional(readOnly = true)
-    public List<BeanResponseDto> getBeansByCafeId(Long cafeId) {
-        cafeRepository.findById(cafeId)
+    public List<BeanResponseDto> getBeansByCafe(Long memberId) {
+        Cafe cafe = cafeRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         // 원두 조회 및 DTO 변환
-        return beanRepository.findAllByCafeId(cafeId).stream()
+        return beanRepository.findAllByCafeId(cafe.getId()).stream()
                 .map(BeanResponseDto::fromEntity)
                 .collect(Collectors.toList());
     }

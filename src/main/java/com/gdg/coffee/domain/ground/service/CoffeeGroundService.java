@@ -11,7 +11,7 @@ public interface CoffeeGroundService {
     CoffeeGroundResponseDto getGround(Long groundId);
 
     /** 카페별 원두 목록 조회 */
-    List<CoffeeGroundResponseDto> getGroundsOfCafe(Long cafeId);
+    List<CoffeeGroundResponseDto> getGroundsOfCafe(Long memberId);
 
     /** 원두 삭제 */
     void deleteGround(Long groundId, Long memberId);
