@@ -74,11 +74,11 @@ public class BeanServiceImpl implements BeanService {
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
         // Bean 이 속한 카페 조회
-        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+        Cafe cafe = cafeRepository.findById(bean.getCafe().getId())
                 .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         // 권한 확인
-        if (!cafe.getMemberId().equals(memberId)) {
+        if (!cafe.getMember().getId().equals(memberId)) {
             throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
         }
 
@@ -94,11 +94,11 @@ public class BeanServiceImpl implements BeanService {
                 .orElseThrow(() -> new BeanException(BeanErrorCode.BEAN_NOT_FOUND));
 
         // Bean 이 속한 카페 조회
-        Cafe cafe = cafeRepository.findById(bean.getCafeId())
+        Cafe cafe = cafeRepository.findById(bean.getCafe().getId())
                 .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
         // 권한 검사
-        if (!cafe.getMemberId().equals(memberId)) {
+        if (!cafe.getMember().getId().equals(memberId)) {
             throw new BeanException(BeanErrorCode.BEAN_FORBIDDEN);
         }
 

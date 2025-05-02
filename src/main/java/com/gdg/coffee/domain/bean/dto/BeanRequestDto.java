@@ -31,7 +31,7 @@ public class BeanRequestDto {
                 .name(name)
                 .origin(origin)
                 .description(description)
-                .cafeId(cafe.getCafeId())
+                .cafe(cafe)
                 .build();
     }
 }
