@@ -1,8 +1,5 @@
 package com.gdg.coffee.domain.pickup.service;
 
-import com.gdg.coffee.domain.cafe.domain.Cafe;
-import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
-import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
@@ -73,7 +70,7 @@ public class PickupService {
     // 5. 수거 요청 목록 조회
     // (1) 카페가 등록한 찌꺼기 기준 전체 요청 조회
     public List<PickupCafeSummaryDto> getCafePickupList(Long cafeId) {
-        List<Pickup> pickupList = pickupRepository.findByGround_Cafe_Id(cafeId);
+        List<Pickup> pickupList = pickupRepository.findByCafeId(cafeId);
         return pickupList.stream()
                 .map(PickupCafeSummaryDto::fromEntity)
                 .toList();
@@ -90,7 +87,7 @@ public class PickupService {
     }
 
     public List<PickupUserSummaryDto> getUserPickupList(Long userId){
-        List<Pickup> pickupList = pickupRepository.findByMember_Id(userId);
+        List<Pickup> pickupList = pickupRepository.findByMemberId(userId);
         return pickupList.stream()
                 .map(PickupUserSummaryDto::fromEntity)
                 .toList();

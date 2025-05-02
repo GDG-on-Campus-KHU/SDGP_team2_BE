@@ -1,6 +1,6 @@
 package com.gdg.coffee.domain.pickup.domain;
 
-import com.gdg.coffee.domain.coffeeground.domain.CoffeeGround;
+import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.common.BaseTime;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.pickup.dto.PickupStatus;

@@ -1,5 +1,7 @@
 package com.gdg.coffee.domain.ground.dto;
 
+import com.gdg.coffee.domain.bean.domain.Bean;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
 import jakarta.validation.constraints.*;
@@ -13,10 +15,10 @@ public class CoffeeGroundRequestDto {
     @Size(max = 2028) private String note;
     @NotNull private Long beanId;
 
-    public CoffeeGround toEntity(Long cafeId) {
+    public CoffeeGround toEntity(Cafe cafe, Bean bean) {
         return CoffeeGround.builder()
-                .cafeId(cafeId)
-                .beanId(beanId)
+                .cafe(cafe)
+                .bean(bean)
                 .totalAmount(amount)
                 .remainingAmount(0F)
                 .note(note)

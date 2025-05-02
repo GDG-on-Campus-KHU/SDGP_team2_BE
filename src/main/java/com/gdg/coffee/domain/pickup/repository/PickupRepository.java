@@ -12,8 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PickupRepository extends JpaRepository<Pickup, Long> {
-    List<Pickup> findByGround_Cafe_Id(Long cafeId);
+    // ✅ 카페 기준 전체 수거 요청 조회
+    @Query("SELECT p FROM Pickup p WHERE p.ground.cafe.id = :cafeId")
+    List<Pickup> findByCafeId(@Param("cafeId") Long cafeId);
 
+    // ✅ 카페 + 상태 기준 요약 조회
     @Query("SELECT new com.gdg.coffee.domain.pickup.dto.PickupCafeSummaryDto(" +
             "p.id, m.username, p.pickupDate, p.createdDate, b.name, p.amount, p.status) " +
             "FROM Pickup p " +
@@ -24,6 +27,7 @@ public interface PickupRepository extends JpaRepository<Pickup, Long> {
     List<PickupCafeSummaryDto> findCafePickupListByStatus(@Param("cafeId") Long cafeId,
                                                           @Param("status") PickupStatus status);
 
+    // ✅ 사용자 + 상태 기준 요약 조회
     @Query("SELECT new com.gdg.coffee.domain.pickup.dto.PickupUserSummaryDto(" +
             "p.id, c.name, p.pickupDate, p.createdDate, b.name, p.amount, p.status) " +
             "FROM Pickup p " +
@@ -34,6 +38,7 @@ public interface PickupRepository extends JpaRepository<Pickup, Long> {
     List<PickupUserSummaryDto> findUserPickupListByStatus(@Param("userId") Long userId,
                                                           @Param("status") PickupStatus status);
 
-    List<Pickup> findByMember_Id(Long memberId);
+    // ✅ 사용자 기준 전체 수거 요청 조회
+    List<Pickup> findByMemberId(Long memberId);
 
 }
