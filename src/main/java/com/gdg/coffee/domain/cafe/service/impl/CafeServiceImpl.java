@@ -49,7 +49,7 @@ public class CafeServiceImpl implements CafeService {
                     throw new CafeException(CafeErrorCode.CAFE_DUPLICATE);
                 });
 
-        Cafe cafe = request.toEntity(memberId);
+        Cafe cafe = request.toEntity(member);
 
         Cafe saved = cafeRepository.save(cafe);
         return CafeResponseDto.fromEntity(saved);
@@ -79,7 +79,7 @@ public class CafeServiceImpl implements CafeService {
         Cafe cafe = cafeRepository.findById(cafeId)
                 .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
 
-        if (!cafe.getMemberId().equals(memberId)) {
+        if (!cafe.getMember().getId().equals(memberId)) {
             throw new CafeException(CafeErrorCode.CAFE_FORBIDDEN);
         }
 
