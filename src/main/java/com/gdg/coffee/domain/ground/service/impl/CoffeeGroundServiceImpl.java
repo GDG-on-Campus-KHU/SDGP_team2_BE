@@ -47,6 +47,7 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
         }
 
         CoffeeGround saved = groundRepo.save(dto.toEntity(cafe, bean));
+
         return CoffeeGroundResponseDto.fromEntity(saved);
     }
 

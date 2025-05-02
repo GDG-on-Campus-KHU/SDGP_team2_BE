@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface BeanRepository extends JpaRepository<Bean, Long> {
     List<Bean> findAllByCafeId(Long cafeId);
+    Optional<Bean> findByBeanId(Long beanId);
 }

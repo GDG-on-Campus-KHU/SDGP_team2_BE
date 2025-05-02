@@ -30,7 +30,7 @@ public class CoffeeGround extends BaseTime {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private CoffeeGroundStatus status;
-
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
@@ -38,7 +38,6 @@ public class CoffeeGround extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bean_id", nullable = false)
     private Bean bean;
-
 
     public void update(Float totalAmount,
                        Float remainingAmount,
