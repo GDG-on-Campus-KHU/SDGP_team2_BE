@@ -38,7 +38,7 @@ public class PickupController {
     public ApiResponse<PickupResponseDto> createPickup(@RequestBody @Valid PickupRequestDto requestDto, @PathVariable Long ground_id) {
         Long memberId = SecurityUtil.getCurrentMemberId();
         PickupResponseDto pickup = pickupService.createPickup(memberId, ground_id, requestDto);
-        return ApiResponse.success(PickupSuccessCode.PICKUP_SUCCESS_CODE, pickup);
+        return ApiResponse.success(PickupSuccessCode.PICKUP_CREATE_SUCCESS, pickup);
     }
 
     /** 수거 요청 목록 조회 - 카페 */
@@ -79,14 +79,14 @@ public class PickupController {
     @Operation(summary = "수거 요청 상세 조회", description = """
         ## 수거 요청 ID로 수거 요청의 상세 정보를 조회합니다.
         """)
-    @GetMapping("/{pickupId}")
+    @GetMapping("/pickups/{pickupId}")
     public ApiResponse<PickupResponseDto> getPickupDetail(@PathVariable Long pickupId) {
         PickupResponseDto pickupDetail = pickupService.getPickupDetail(pickupId);
         return ApiResponse.success(PickupSuccessCode.PICKUP_SUCCESS_CODE, pickupDetail);
     }
 
     /** 수거 요청 상태 변경 */
-    @PutMapping("/{pickupId}/status")
+    @PutMapping("/pickups/{pickupId}/status")
     @Operation(summary = "수거 요청 상태 변경", description = """
         ## 수거 요청의 상태를 변경합니다.
         * 예: WAITING → COMPLETED
@@ -99,8 +99,22 @@ public class PickupController {
         return ApiResponse.success(PickupSuccessCode.PICKUP_STATUS_UPDATE_SUCCESS);
     }
 
+    /** 수거 요청 수정 */
+    @PutMapping("/pickups/{pickupId}")
+    @Operation(summary = "수거 요청 내용 변경", description = """
+        ## 수거 요청의 내용을 변경합니다.
+        """)
+    public ApiResponse<Void> updatePickup(
+            @PathVariable Long pickupId,
+            @RequestBody PickupRequestDto requestDto
+    ) {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        pickupService.updatePickup(pickupId, memberId, requestDto);
+        return ApiResponse.success(PickupSuccessCode.PICKUP_UPDATE_SUCCESS);
+    }
+
     /** 수거 요청 삭제 */
-    @DeleteMapping("/{pickupId}")
+    @DeleteMapping("/pickups/{pickupId}")
     @Operation(summary = "수거 요청 삭제", description = """
         ## 수거 요청을 삭제합니다.
         * 요청한 사용자 본인만 삭제할 수 있습니다.

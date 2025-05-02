@@ -4,10 +4,12 @@ import com.gdg.coffee.global.common.type.SuccessResponse;
 import org.springframework.http.HttpStatus;
 
 public enum PickupSuccessCode implements SuccessResponse {
+    PICKUP_CREATE_SUCCESS(HttpStatus.CREATED, "PICKUP_CREATE_SUCCESS", "수거 요청을 성공적으로 생성하였습니다."),
     PICKUP_SUCCESS_CODE(HttpStatus.OK,"PICKUP_INFO_SUCCESS","수거 요청 조회에 성공했습니다."),
     PICKUP_GET_LIST_SUCCESS (HttpStatus.OK,      "PICKUP_GET_LIST_SUCCESS",  "수거 요청 목록을 성공적으로 조회했습니다."),
     PICKUP_STATUS_UPDATE_SUCCESS   (HttpStatus.OK,      "PICKUP_STATUS_UPDATE_SUCCESS",    "수거 요청 상태가 성공적으로 수정되었습니다."),
-    PICKUP_DELETE_SUCCESS (HttpStatus.OK,      "PICKUP_DELETE_SUCCESS", "수거 요청이 성공적으로 삭제되었습니다.");
+    PICKUP_DELETE_SUCCESS (HttpStatus.OK,      "PICKUP_DELETE_SUCCESS", "수거 요청이 성공적으로 삭제되었습니다."),
+    PICKUP_UPDATE_SUCCESS(HttpStatus.OK, "PICKUP_UPDATE_SUCCESS", "수거 요청이 성공적으로 수정되었습니다");
 
     private final HttpStatus httpStatus;
     private final String code;

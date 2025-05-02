@@ -2,6 +2,7 @@ package com.gdg.coffee.domain.pickup.service;
 
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.member.domain.Member;
+import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
 import com.gdg.coffee.domain.member.exception.MemberException;
 import com.gdg.coffee.domain.member.repository.MemberRepository;
@@ -28,6 +29,14 @@ public class PickupService {
     public PickupResponseDto createPickup(Long memberId, Long groundId, PickupRequestDto requestDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if(member.getRole() != MemberRole.USER) {
+            throw  new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
+        }
+
+        if (requestDto.getAmount() <= 0) {
+            throw new PickupException(PickupErrorCode.INVALID_INPUT);
+        }
 
         Pickup pickup = PickupRequestDto.toEntity(requestDto, member);
         pickupRepository.save(pickup);
@@ -97,6 +106,14 @@ public class PickupService {
     public void deletePickup(Long pickupId, Long memberId) {
         Pickup pickup = pickupRepository.findById(pickupId)
                 .orElseThrow(() -> new PickupException(PickupErrorCode.PICKUP_NOT_FOUND));
+
+        if (pickup.getStatus() == PickupStatus.COMPLETED){
+            throw new PickupException(PickupErrorCode.ALREADY_COMPLETED);
+        }
+
+        if (pickup.getStatus() == PickupStatus.ACCEPTED){
+            throw new PickupException(PickupErrorCode.CANNOT_CANCEL);
+        }
 
         if (!pickup.getMember().getId().equals(memberId)) {
             throw new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
