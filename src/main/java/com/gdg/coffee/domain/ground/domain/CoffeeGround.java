@@ -1,5 +1,7 @@
 package com.gdg.coffee.domain.ground.domain;
 
+import com.gdg.coffee.domain.bean.domain.Bean;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,12 +30,14 @@ public class CoffeeGround extends BaseTime {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private CoffeeGroundStatus status;
+  
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafe_id", nullable = false)
+    private Cafe cafe;
 
-    @Column(name = "cafe_id", nullable = false)
-    private Long cafeId;
-
-    @Column(name = "bean_id", nullable = false)
-    private Long beanId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bean_id", nullable = false)
+    private Bean bean;
 
     public void update(Float totalAmount,
                        Float remainingAmount,

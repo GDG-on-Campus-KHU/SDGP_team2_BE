@@ -23,7 +23,7 @@ public class BeanResponseDto {
      */
     public static BeanResponseDto fromEntity(Bean bean) {
         return new BeanResponseDto(
-                bean.getBeanId(),
+                bean.getId(),
                 bean.getName(),
                 bean.getOrigin(),
                 bean.getDescription()

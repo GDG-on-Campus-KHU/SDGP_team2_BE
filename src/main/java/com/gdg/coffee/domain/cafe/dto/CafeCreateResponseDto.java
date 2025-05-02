@@ -20,7 +20,7 @@ public class CafeCreateResponseDto {
      */
     public static CafeCreateResponseDto fromEntity(Cafe cafe) {
         return CafeCreateResponseDto.builder()
-                .cafeId(cafe.getCafeId())
+                .cafeId(cafe.getId())
                 .createdAt(cafe.getCreatedDate())
                 .build();
     }

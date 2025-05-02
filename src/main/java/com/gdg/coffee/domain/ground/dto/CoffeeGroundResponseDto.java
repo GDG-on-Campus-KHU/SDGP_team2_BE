@@ -29,8 +29,8 @@ public class CoffeeGroundResponseDto {
                 .remainingAmount(g.getRemainingAmount())
                 .note(g.getNote())
                 .status(g.getStatus())
-                .cafeId(g.getCafeId())
-                .beanId(g.getBeanId())
+                .cafeId(g.getCafe().getId())
+                .beanId(g.getBean().getId())
                 .build();
     }
 }

@@ -1,6 +1,7 @@
 package com.gdg.coffee.domain.bean.domain;
 
 import com.gdg.coffee.domain.bean.dto.BeanRequestDto;
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +21,7 @@ public class Bean extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bean_id")
-    private Long beanId;
+    private Long id;
 
     @Column(nullable = false, length = 50)
     private String name;
@@ -31,9 +32,9 @@ public class Bean extends BaseTime {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    // Cafe FK
-    @Column(name = "cafe_id", nullable = false)
-    private Long cafeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cafe_id", nullable = false)
+    private Cafe cafe;
 
     /**
      * 엔티티 업데이트 메서드

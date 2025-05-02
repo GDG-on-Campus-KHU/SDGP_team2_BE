@@ -7,6 +7,7 @@ import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
+import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
 import com.gdg.coffee.domain.ground.dto.CoffeeGroundRequestDto;
 import com.gdg.coffee.domain.ground.dto.CoffeeGroundResponseDto;
 import com.gdg.coffee.domain.ground.exception.CoffeeGroundErrorCode;
@@ -35,18 +36,18 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
         // 카페 확인
         Cafe cafe = cafeRepo.findByMemberId(memberId)
                 .orElseThrow(() -> new CoffeeGroundException(CafeErrorCode.CAFE_FORBIDDEN));
-        Long cafeId = cafe.getCafeId();
 
         // 원두 확인
-        Bean bean = beanRepo.findByBeanId(dto.getBeanId())
+        Bean bean = beanRepo.findById(dto.getBeanId())
                 .orElseThrow(() -> new CoffeeGroundException(BeanErrorCode.BEAN_NOT_FOUND));
 
         // 본인 카페의 원두인지 확인
-        if(!bean.getCafeId().equals(cafeId)) {
+        if(!bean.getCafe().getId().equals(cafe.getId())) {
             throw new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN);
         }
 
-        CoffeeGround saved = groundRepo.save(dto.toEntity(cafeId));
+        CoffeeGround saved = groundRepo.save(dto.toEntity(cafe, bean));
+
         return CoffeeGroundResponseDto.fromEntity(saved);
     }
 
@@ -78,7 +79,7 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
         Cafe cafe = cafeRepo.findById(memberId)
                 .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN));
 
-        if(!ground.getCafeId().equals(cafe.getCafeId())) {
+        if(!ground.getCafe().getId().equals(cafe.getId())) {
             throw new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN);
         }
 

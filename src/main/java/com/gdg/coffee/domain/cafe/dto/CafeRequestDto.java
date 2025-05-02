@@ -42,9 +42,9 @@ public class CafeRequestDto {
     /**
      * DTO → Entity 변환 메서드
      */
-    public Cafe toEntity(Long memberId) {
+    public Cafe toEntity(Member member) {
         return Cafe.builder()
-                .memberId(memberId)  // memberId가 아닌 member 객체 사용
+                .member(member)  // memberId가 아닌 member 객체 사용
                 .name(name)
                 .address(address)
                 .detailAddress(detailAddress)

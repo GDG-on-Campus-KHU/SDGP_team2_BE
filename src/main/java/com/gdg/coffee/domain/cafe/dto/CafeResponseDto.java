@@ -31,8 +31,8 @@ public class CafeResponseDto {
      */
     public static CafeResponseDto fromEntity(Cafe cafe) {
         return CafeResponseDto.builder()
-                .cafeId(cafe.getCafeId())
-                .memberId(cafe.getMemberId())
+                .cafeId(cafe.getId())
+                .memberId(cafe.getMember().getId())
                 .name(cafe.getName())
                 .address(cafe.getAddress())
                 .detailAddress(cafe.getDetailAddress())
