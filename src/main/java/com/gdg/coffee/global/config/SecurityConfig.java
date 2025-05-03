@@ -41,15 +41,15 @@ public class SecurityConfig {
                                         "/h2/**",
                                         "/error",
                                         "/api/auth/login/google",
-                                        "/oauth/**"
+                                        "/oauth2/**",
+                                        "/login/oauth2/**",
+                                        "/api/auth/google/callback"
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/beans/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/grounds/**").permitAll()
-                                // Ground 생성은 CAFE 권한이 있는 사용자만
                                 .requestMatchers(HttpMethod.POST, "/api/grounds").hasRole("CAFE")
-                                //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
