@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class CoffeeGroundResponseDto {
     private Long groundId;
 
-    private LocalDateTime date;
+    private String date;
     private Float totalAmount;
     private Float remainingAmount;
 
@@ -24,7 +24,7 @@ public class CoffeeGroundResponseDto {
     public static CoffeeGroundResponseDto fromEntity(CoffeeGround g) {
         return CoffeeGroundResponseDto.builder()
                 .groundId(g.getGroundId())
-                .date(g.getCreatedDate())
+                .date(g.getDate())
                 .totalAmount(g.getTotalAmount())
                 .remainingAmount(g.getRemainingAmount())
                 .note(g.getNote())

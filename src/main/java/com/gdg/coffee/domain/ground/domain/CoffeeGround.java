@@ -18,6 +18,9 @@ public class CoffeeGround extends BaseTime {
     @Column(name = "ground_id")
     private Long groundId;
 
+    @Column(nullable = false, length = 50)
+    private String date;
+
     @Column(nullable = false, columnDefinition = "FLOAT")
     private Float totalAmount;
 

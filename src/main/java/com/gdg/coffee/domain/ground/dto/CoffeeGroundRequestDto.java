@@ -11,14 +11,16 @@ import lombok.*;
 @NoArgsConstructor @AllArgsConstructor
 public class CoffeeGroundRequestDto {
 
+    @NotNull private Long beanId;
+    @NotNull private String date;
     @NotNull @Positive private Float amount;
     @Size(max = 2028) private String note;
-    @NotNull private Long beanId;
 
     public CoffeeGround toEntity(Cafe cafe, Bean bean) {
         return CoffeeGround.builder()
                 .cafe(cafe)
                 .bean(bean)
+                .date(date)
                 .totalAmount(amount)
                 .remainingAmount(0F)
                 .note(note)
