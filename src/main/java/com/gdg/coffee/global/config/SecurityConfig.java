@@ -47,6 +47,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/beans/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/grounds/**").permitAll()
+                                // Ground 생성은 CAFE 권한이 있는 사용자만
+                                .requestMatchers(HttpMethod.POST, "/api/grounds").hasRole("CAFE")
                                 //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
