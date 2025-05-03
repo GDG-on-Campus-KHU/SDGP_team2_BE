@@ -28,19 +28,19 @@ public class GoogleOAuthService {
     private final MemberRepository memberRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    @Value("${oauth.google.client-id}")
     private String clientId;
 
-    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    @Value("${oauth.google.client-secret}")
     private String clientSecret;
 
-    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+    @Value("${oauth.google.redirect-uri}")
     private String redirectUri;
 
-    @Value("${spring.security.oauth2.client.provider.google.token-uri}")
+    @Value("${oauth.google.token-uri}")
     private String tokenUri;
 
-    @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
+    @Value("${oauth.google.user-info-uri}")
     private String userInfoUri;
 
     public MemberLoginResponseDto loginGoogle(String authorizationCode) {
