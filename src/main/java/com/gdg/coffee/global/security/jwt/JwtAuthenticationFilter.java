@@ -70,7 +70,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             // token == null이면 그냥 넘어감
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
 
         } catch (ExpiredJwtException e) {
             throw new AuthException(AuthErrorCode.TOKEN_EXPIRED);
@@ -79,6 +78,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             throw new AuthException(AuthErrorCode.SERVER_ERROR);
         }
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
 

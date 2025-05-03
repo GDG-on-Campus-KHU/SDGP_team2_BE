@@ -1,5 +1,6 @@
 package com.gdg.coffee.domain.pickup.dto;
 
+import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.pickup.domain.Pickup;
 import lombok.AllArgsConstructor;
@@ -14,9 +15,10 @@ public class PickupRequestDto {
     private String message;             // 수거 요청 메시지 (선택)
     private LocalDate pickupDate;       // 희망 수거일
 
-    public static Pickup toEntity(PickupRequestDto requestDto, Member member) {
+    public static Pickup toEntity(PickupRequestDto requestDto, Member member, CoffeeGround ground) {
         return Pickup.builder()
                 .member(member)
+                .ground(ground)
                 .pickupDate(requestDto.getPickupDate())
                 .amount(requestDto.getAmount())
                 .message(requestDto.getMessage())

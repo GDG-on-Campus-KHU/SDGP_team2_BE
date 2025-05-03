@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -60,7 +61,7 @@ public class CafeController {
         - 누구나 접근 가능합니다.
         """)
     public ApiResponse<Page<CafeResponseDto>> getAllCafes(
-            @PageableDefault(size = Integer.MAX_VALUE) Pageable pageable) {
+            @ParameterObject Pageable pageable) {
         Page<CafeResponseDto> page = cafeService.getAllCafes(pageable);
         return ApiResponse.success(CafeSuccessCode.CAFE_GET_LIST_SUCCESS, page);
     }
