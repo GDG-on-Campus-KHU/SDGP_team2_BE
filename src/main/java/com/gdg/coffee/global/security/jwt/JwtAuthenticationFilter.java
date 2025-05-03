@@ -36,7 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/h2",
             "/api/auth/register",
             "/api/auth/login","/login",
-            "/api/auth/refresh"
+            "/api/auth/refresh",
+            "/oauth2/authorization",    // 인가 요청 진입점
+            "/login/oauth2/code"        // 콜백 처리 엔드포인트
     );
 
 
