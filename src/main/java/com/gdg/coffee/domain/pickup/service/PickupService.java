@@ -1,6 +1,8 @@
 package com.gdg.coffee.domain.pickup.service;
 
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
+import com.gdg.coffee.domain.ground.domain.CoffeeGround;
+import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
@@ -11,24 +13,30 @@ import com.gdg.coffee.domain.pickup.dto.*;
 import com.gdg.coffee.domain.pickup.exception.PickupErrorCode;
 import com.gdg.coffee.domain.pickup.exception.PickupException;
 import com.gdg.coffee.domain.pickup.repository.PickupRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PickupService {
 
     private final PickupRepository pickupRepository;
     private final MemberRepository memberRepository;
-    private final CafeRepository cafeRepository;
+    private final CoffeeGroundRepository coffeeGroundRepository;
 
     // 1. 수거 요청 생성 (일반 사용자)
     public PickupResponseDto createPickup(Long memberId, Long groundId, PickupRequestDto requestDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // Ground 조회
+        CoffeeGround ground = coffeeGroundRepository.findById(groundId)
+                .orElseThrow(() -> new PickupException(PickupErrorCode.PICKUP_NOT_FOUND));
 
         if(member.getRole() != MemberRole.USER) {
             throw  new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
@@ -38,7 +46,7 @@ public class PickupService {
             throw new PickupException(PickupErrorCode.INVALID_INPUT);
         }
 
-        Pickup pickup = PickupRequestDto.toEntity(requestDto, member);
+        Pickup pickup = PickupRequestDto.toEntity(requestDto, member, ground);
         pickupRepository.save(pickup);
 
         return PickupResponseDto.fromEntity(pickup);
@@ -78,28 +86,13 @@ public class PickupService {
 
     // 5. 수거 요청 목록 조회
     // (1) 카페가 등록한 찌꺼기 기준 전체 요청 조회
-    public List<PickupCafeSummaryDto> getCafePickupList(Long cafeId) {
-        List<Pickup> pickupList = pickupRepository.findByCafeId(cafeId);
-        return pickupList.stream()
-                .map(PickupCafeSummaryDto::fromEntity)
-                .toList();
-    }
-
-    // (2) 카페 + 상태 필터링 조회
-    public List<PickupCafeSummaryDto> getCafePickupListByStatus(Long cafeId, PickupStatus status){
-        return pickupRepository.findCafePickupListByStatus(cafeId, status);
+    public List<PickupCafeSummaryDto> getCafePickupList(Long cafeId, PickupStatus status) {
+        return pickupRepository.findCafePickupListByStatusDsl(cafeId, status);
     }
 
     // (3) 사용자 기준 상태별 요청 조회
-    public List<PickupUserSummaryDto> getUserPickupListByStatus(Long userId, PickupStatus status) {
-        return pickupRepository.findUserPickupListByStatus(userId, status);
-    }
-
-    public List<PickupUserSummaryDto> getUserPickupList(Long userId){
-        List<Pickup> pickupList = pickupRepository.findByMemberId(userId);
-        return pickupList.stream()
-                .map(PickupUserSummaryDto::fromEntity)
-                .toList();
+    public List<PickupUserSummaryDto> getUserPickupList(Long userId, PickupStatus status) {
+        return pickupRepository.findUserPickupListByStatusDsl(userId, status);
     }
 
     // 6. 수거 요청 삭제 (일반 사용자)

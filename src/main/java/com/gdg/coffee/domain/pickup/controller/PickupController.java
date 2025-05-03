@@ -8,6 +8,8 @@ import com.gdg.coffee.global.common.response.ApiResponse;
 import com.gdg.coffee.global.security.CustomUserDetails;
 import com.gdg.coffee.global.util.SecurityUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,38 +43,65 @@ public class PickupController {
         return ApiResponse.success(PickupSuccessCode.PICKUP_CREATE_SUCCESS, pickup);
     }
 
-    /** 수거 요청 목록 조회 - 카페 */
+    // 수거 요청 목록 조회 - 카페
     @GetMapping("/cafe/pickups")
-    @Operation(summary = "카페 수거 요청 목록 조회", description = """
-        ## 현재 로그인된 카페의 수거 요청 목록을 조회합니다.
-        * 상태(PickupStatus)에 따라 필터링할 수 있습니다.
-        """)
-    public ApiResponse<List<PickupCafeSummaryDto>> getCafePickupsByStatus(
-            @RequestParam(required = false) PickupStatus status
+    @Operation(
+            summary = "카페 수거 요청 목록 조회",
+            description = """
+            현재 로그인된 카페의 수거 요청 목록을 조회합니다.
+            상태(PickupStatus)에 따라 필터링할 수 있습니다.
+            """,
+            parameters = {
+                    @Parameter(
+                            name = "status",
+                            description = "조회할 상태 (옵션, 없으면 전체 조회)",
+                            required = false,
+                            schema = @Schema(implementation = PickupStatus.class)
+                    )
+            }
+    )
+    public ApiResponse<List<PickupCafeSummaryDto>> getCafePickups(
+            @RequestParam(value = "status", required = false) PickupStatus status
     ) {
+        // SecurityUtil 에서 카페 ID를 꺼내옵니다
         Long cafeId = SecurityUtil.getCurrentMemberId();
-        List<PickupCafeSummaryDto> response = (status != null)
-                ? pickupService.getCafePickupListByStatus(cafeId, status)
-                : pickupService.getCafePickupList(cafeId);
+        List<PickupCafeSummaryDto> pickups =
+                pickupService.getCafePickupList(cafeId, status);
 
-        return ApiResponse.success(PickupSuccessCode.PICKUP_GET_LIST_SUCCESS, response);
+        return ApiResponse.success(
+                PickupSuccessCode.PICKUP_GET_LIST_SUCCESS,
+                pickups
+        );
     }
 
-    /** 수거 요청 목록 조회 - 사용자 */
+    // 수거 요청 목록 조회 - 사용자
     @GetMapping("/mypage/pickups")
-    @Operation(summary = "사용자 수거 요청 목록 조회", description = """
-        ## 현재 로그인된 사용자의 수거 요청 목록을 조회합니다.
-        * 상태(PickupStatus)에 따라 필터링할 수 있습니다.
-        """)
-    public ApiResponse<List<PickupUserSummaryDto>> getUserPickupsByStatus(
-            @RequestParam(required = false) PickupStatus status
+    @Operation(
+            summary = "사용자 수거 요청 목록 조회",
+            description = """
+            현재 로그인된 사용자의 수거 요청 목록을 조회합니다.
+            상태(PickupStatus)에 따라 필터링할 수 있습니다.
+            """,
+            parameters = {
+                    @Parameter(
+                            name = "status",
+                            description = "조회할 상태 (옵션, 없으면 전체 조회)",
+                            required = false,
+                            schema = @Schema(implementation = PickupStatus.class)
+                    )
+            }
+    )
+    public ApiResponse<List<PickupUserSummaryDto>> getUserPickups(
+            @RequestParam(value = "status", required = false) PickupStatus status
     ) {
         Long memberId = SecurityUtil.getCurrentMemberId();
-        List<PickupUserSummaryDto> response = (status != null)
-                ? pickupService.getUserPickupListByStatus(memberId, status)
-                : pickupService.getUserPickupList(memberId);
+        List<PickupUserSummaryDto> pickups =
+                pickupService.getUserPickupList(memberId, status);
 
-        return ApiResponse.success(PickupSuccessCode.PICKUP_GET_LIST_SUCCESS, response);
+        return ApiResponse.success(
+                PickupSuccessCode.PICKUP_GET_LIST_SUCCESS,
+                pickups
+        );
     }
 
     /** 수거 요청 상세 보기 */
