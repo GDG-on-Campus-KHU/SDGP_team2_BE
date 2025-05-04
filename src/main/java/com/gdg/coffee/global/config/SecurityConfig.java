@@ -34,17 +34,15 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         "/login/**",
                                         "/api/users/login/**",
-                                        "/api/auth/register",
-                                        "/api/auth/login",
-                                        "/api/auth/refresh",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/h2/**",
                                         "/error",
-                                        "/api/auth/login/google",
+                                        "/api/auth/**",
+                                        "/oauth/**"                      
                                         "/oauth2/**",
                                         "/login/oauth2/**",
-                                        "/api/auth/google/callback"
+
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
