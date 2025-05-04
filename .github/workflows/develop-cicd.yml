@@ -21,10 +21,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
       # application.yaml 생성
-      - name: Create application.yaml
+      - name: Create application.yaml from base64
         run: |
           mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YAML }}" > src/main/resources/application.yaml
+          echo "${{ secrets.APPLICATION_YAML }}" | base64 -d > src/main/resources/application.yaml
       # Gradle 빌드
       - name: Build with Gradle
         run: |
