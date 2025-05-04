@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 
@@ -42,6 +43,21 @@ public class GoogleOAuthService {
 
     @Value("${oauth.google.user-info-uri}")
     private String userInfoUri;
+
+    /**
+     * 1) 구글 OAuth 승인 URL 생성
+     */
+    public String buildAuthorizationUri() {
+        return UriComponentsBuilder
+                .fromHttpUrl("https://accounts.google.com/o/oauth2/v2/auth")
+                .queryParam("client_id", clientId)
+                .queryParam("redirect_uri", redirectUri)
+                .queryParam("response_type", "code")
+                .queryParam("scope", "openid email profile")
+                .build()
+                .toUriString();
+    }
+
 
     public MemberLoginResponseDto loginGoogle(String authorizationCode) {
         // 1. authorizationCode로 accessToken 얻기

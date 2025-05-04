@@ -12,11 +12,13 @@ import com.gdg.coffee.domain.auth.service.GoogleOAuthService;
 import com.gdg.coffee.global.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 
@@ -62,23 +64,26 @@ public class AuthController {
         return new ResponseEntity<>(ApiResponse.success(AuthSuccessCode.TOKEN_REFRESH_SUCCESS, newAccessToken), HttpStatus.OK);
     }
 
-    @Operation(summary = "[구현완료] 구글 로그인 (프론트 연동)", description = """
-    ## 구글 OAuth 인증 코드를 사용하여 로그인합니다.
-    - 프론트엔드에서 받은 authorizationCode를 사용해 구글 로그인 절차를 수행합니다.
-    - 구글 계정이 기존 회원 정보와 연동되어 있다면 로그인 처리됩니다.
-    """)
-    @PostMapping("/login/google")
-    public ResponseEntity<ApiResponse<MemberLoginResponseDto>> loginGoogle(@RequestBody GoogleOAuthRequestDto requestBody) {
-        String authorizationCode = requestBody.getAuthorizationCode();
-        MemberLoginResponseDto response = googleOAuthService.loginGoogle(authorizationCode);
-        return new ResponseEntity<>(ApiResponse.success(AuthSuccessCode.LOGIN_SUCCESS, response), HttpStatus.OK);
+    @Operation(
+            summary     = "[구현완료] 구글 로그인 시작",
+            description = """
+        ## 구글 OAuth 로그인 화면으로 리다이렉트합니다.
+        * 클라이언트가 이 엔드포인트를 호출하면 302 응답으로 구글 승인 페이지로 이동됩니다.
+        """
+    )
+    @GetMapping("/login/google")
+    public void loginGoogle(HttpServletResponse response) throws IOException {
+        response.sendRedirect(googleOAuthService.buildAuthorizationUri());
     }
 
-    @Operation(summary = "[구현완료] 구글 콜백", description = """
-    ## 구글 OAuth 로그인 콜백입니다.
-    - 구글 로그인 승인 후 리디렉션되는 엔드포인트입니다.
-    - Authorization Code를 통해 사용자 인증 및 로그인 처리를 수행합니다.
-    """)
+    @Operation(
+            summary     = "[구현완료] 구글 콜백",
+            description = """
+        ## 구글 OAuth 승인 후 호출되는 콜백 엔드포인트입니다.
+        * `code` 파라미터를 받아 구글 토큰 교환 및 사용자 정보 조회를 수행합니다.
+        * 내부적으로 자체 JWT(access/refresh)를 발급하여 JSON으로 반환합니다.
+        """
+    )
     @GetMapping("/google/callback")
     public ResponseEntity<ApiResponse<MemberLoginResponseDto>> googleCallback(@RequestParam("code") String code) {
         MemberLoginResponseDto response = googleOAuthService.loginGoogle(code);
