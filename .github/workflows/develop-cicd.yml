@@ -75,5 +75,5 @@ jobs:
           script: |
             echo "${{ secrets.ENV_FILE }}" > .env
             docker pull jh011007/coffee-app:develop
-            docker compose down
-            docker compose up -d
+            COMPOSE_PARALLEL_LIMIT=1 docker compose down
+            COMPOSE_PARALLEL_LIMIT=1 docker compose up -d
