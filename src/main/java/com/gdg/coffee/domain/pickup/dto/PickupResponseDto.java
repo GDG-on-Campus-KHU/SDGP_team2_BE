@@ -25,6 +25,7 @@ public class PickupResponseDto {
     public static PickupResponseDto fromEntity(Pickup pickup) {
         return PickupResponseDto.builder()
                 .pickupId(pickup.getId())
+                .groundId(pickup.getGround().getGroundId())
                 .memberId(pickup.getMember().getId())
                 .amount(pickup.getAmount())
                 .message(pickup.getMessage())
