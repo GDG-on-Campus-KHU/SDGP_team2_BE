@@ -39,10 +39,9 @@ public class SecurityConfig {
                                         "/h2/**",
                                         "/error",
                                         "/api/auth/**",
-                                        "/oauth/**"                      
+                                        "/oauth/**",
                                         "/oauth2/**",
-                                        "/login/oauth2/**",
-
+                                        "/login/oauth2/**"
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
