@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .sessionManagement(configure -> configure.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT 기반 인증이므로 세션을 아예 생성하지 않음
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                                 .requestMatchers(
                                         "/login/**",
                                         "/api/users/login/**",
