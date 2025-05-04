@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .sessionManagement(configure -> configure.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT 기반 인증이므로 세션을 아예 생성하지 않음
                 .authorizeHttpRequests(authorize ->
                         authorize
+                                .requestMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                                 .requestMatchers(
                                         "/login/**",
                                         "/api/users/login/**",
@@ -38,15 +39,16 @@ public class SecurityConfig {
                                         "/h2/**",
                                         "/error",
                                         "/api/auth/**",
-                                        "/oauth/**"
+                                        "/oauth/**"                      
+                                        "/oauth2/**",
+                                        "/login/oauth2/**",
+
                                 ).permitAll()
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/beans/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/grounds/**").permitAll()
-                                // Ground 생성은 CAFE 권한이 있는 사용자만
                                 .requestMatchers(HttpMethod.POST, "/api/grounds").hasRole("CAFE")
-                                //.requestMatchers("/**").permitAll()     // 임시
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
