@@ -6,6 +6,8 @@ import com.gdg.coffee.domain.common.BaseTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "coffee_ground")
 @Getter @Setter
@@ -17,6 +19,9 @@ public class CoffeeGround extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ground_id")
     private Long groundId;
+
+    @Column(nullable = false, columnDefinition = "DATETIME")
+    private LocalDateTime startDateTime;
 
     @Column(nullable = false, columnDefinition = "FLOAT")
     private Float totalAmount;

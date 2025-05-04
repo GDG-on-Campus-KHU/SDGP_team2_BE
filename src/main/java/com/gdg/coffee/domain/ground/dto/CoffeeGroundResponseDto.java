@@ -4,6 +4,7 @@ import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter @Builder
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 public class CoffeeGroundResponseDto {
     private Long groundId;
 
-    private LocalDateTime date;
+    private LocalDateTime startDateTime;
     private Float totalAmount;
     private Float remainingAmount;
 
@@ -24,7 +25,7 @@ public class CoffeeGroundResponseDto {
     public static CoffeeGroundResponseDto fromEntity(CoffeeGround g) {
         return CoffeeGroundResponseDto.builder()
                 .groundId(g.getGroundId())
-                .date(g.getCreatedDate())
+                .startDateTime(g.getStartDateTime())
                 .totalAmount(g.getTotalAmount())
                 .remainingAmount(g.getRemainingAmount())
                 .note(g.getNote())

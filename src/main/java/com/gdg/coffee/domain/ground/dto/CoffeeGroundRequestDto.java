@@ -7,18 +7,22 @@ import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class CoffeeGroundRequestDto {
 
+    @NotNull private Long beanId;
+    @NotNull private LocalDateTime startDateTime;
     @NotNull @Positive private Float amount;
     @Size(max = 2028) private String note;
-    @NotNull private Long beanId;
 
     public CoffeeGround toEntity(Cafe cafe, Bean bean) {
         return CoffeeGround.builder()
                 .cafe(cafe)
                 .bean(bean)
+                .startDateTime(startDateTime.toLocalDate().atStartOfDay())
                 .totalAmount(amount)
                 .remainingAmount(0F)
                 .note(note)
