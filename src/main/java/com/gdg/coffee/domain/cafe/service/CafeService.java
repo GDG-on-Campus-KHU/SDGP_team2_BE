@@ -13,6 +13,11 @@ public interface CafeService {
     /** 단건 조회 */
     CafeResponseDto getCafe(Long cafeId);
 
+    /** 내 카페 조회*/
+    CafeResponseDto getCafeInfo(Long memberId);
+
+    Boolean existsByMemberId(Long memberId);
+
     /** 회원이 보유한 카페 목록(페이지네이션) */
     Page<CafeResponseDto> getAllCafes(Pageable pageable);
 

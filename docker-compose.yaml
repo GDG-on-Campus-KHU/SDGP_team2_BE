@@ -1,5 +1,8 @@
 services:
   app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
     image: jh011007/coffee-app:develop
     platform: linux/amd64
     container_name: coffee-app
@@ -10,6 +13,7 @@ services:
       - redis
     volumes:
       - /home/deehyeondeehyeon/application.yaml:/app/src/main/resources/application.yaml
+#      - ./application.yaml:/app/src/main/resources/application.yaml
     environment:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}

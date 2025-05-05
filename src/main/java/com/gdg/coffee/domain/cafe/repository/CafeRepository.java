@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface CafeRepository extends JpaRepository<Cafe, Long> {
     Optional<Cafe> findByMemberId(Long memberId);
+    boolean existsByMemberId(Long memberId);
 }

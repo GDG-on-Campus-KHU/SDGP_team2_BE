@@ -65,6 +65,23 @@ public class CafeServiceImpl implements CafeService {
         return CafeResponseDto.fromEntity(cafe);
     }
 
+    @Override
+    public CafeResponseDto getCafeInfo(Long memberId) {
+        Cafe cafe = cafeRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+        return CafeResponseDto.fromEntity(cafe);
+    }
+
+    @Override
+    public Boolean existsByMemberId(Long memberId) {
+        boolean exists = cafeRepository.existsByMemberId(memberId);
+        if (!exists) {
+            throw new CafeException(CafeErrorCode.CAFE_NOT_FOUND_BY_MEMBER);
+        }
+        return true;
+    }
+
+
     /** 카페 목록(페이지네이션) */
     @Override
     @Transactional(readOnly = true)
