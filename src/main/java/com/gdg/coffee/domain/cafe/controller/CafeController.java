@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @Tag(name = "Cafe", description = "카페 관련 API")
 @Slf4j
 @RestController
@@ -113,4 +115,19 @@ public class CafeController {
         return ApiResponse.success(CafeSuccessCode.CAFE_EXIST_CHECK_SUCCESS, hasCafe);
     }
 
+    @GetMapping("/near")
+    @Operation(summary = "반경 내 카페 목록 조회 (5km)", description = """
+        ## 현재 위치 반경 5km 이내의 카페 목록을 조회합니다.
+        - 누구나 접근 가능합니다.
+        - 요청 파라미터로 사용자의 현재 위치(위도, 경도)를 전달해야 합니다.
+        - 유효한 범위(-90~90, -180~180)
+        - 결과는 거리가 가까운 순서로 정렬되지 않을 수 있으며, 이 기능은 현재 페이징을 지원하지 않습니다.
+        """)
+    public ApiResponse<List<CafeResponseDto>> getNearbyCafes(
+            @RequestParam("latitude") double latitude,
+            @RequestParam("longitude") double longitude
+    ) {
+        List<CafeResponseDto> nearbyCafes = cafeService.findCafesNear(latitude, longitude);
+        return ApiResponse.success(CafeSuccessCode.CAFE_GET_NEARBY_LIST_SUCCESS, nearbyCafes);
+    }
 }
