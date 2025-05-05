@@ -78,4 +78,39 @@ public class CafeController {
         CafeResponseDto updated = cafeService.updateCafe(memberId, requestDto);
         return ApiResponse.success(CafeSuccessCode.CAFE_UPDATE_SUCCESS, updated);
     }
+
+    @GetMapping("/me")
+    @Operation(
+            summary = "내 카페 정보 조회",
+            description = """
+            현재 로그인한 사용자의 카페 정보를 반환합니다.
+            
+            - JWT 토큰을 통해 인증된 사용자만 호출할 수 있습니다.
+            - 사용자가 카페를 보유하지 않은 경우, 404 예외(CAFE_NOT_FOUND)가 발생합니다.
+            - 응답 데이터에는 카페 이름, 주소, 설명, 연락처 등의 상세 정보가 포함됩니다.
+            """
+    )
+    public ApiResponse<CafeResponseDto> getCafeInfo() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        CafeResponseDto cafeInfo = cafeService.getCafeInfo(memberId);
+        return ApiResponse.success(CafeSuccessCode.CAFE_GET_SUCCESS, cafeInfo);
+    }
+
+    @GetMapping("/me/exists")
+    @Operation(
+            summary = "내 카페 존재 여부 확인",
+            description = """
+            현재 로그인한 사용자가 카페를 등록했는지 여부를 반환합니다.
+        
+            - true: 카페가 있음
+            - false: 카페가 없음
+            - JWT 인증이 필요합니다.
+            """
+    )
+    public ApiResponse<Boolean> hasCafe() {
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        Boolean hasCafe = cafeService.existsByMemberId(memberId);
+        return ApiResponse.success(CafeSuccessCode.CAFE_EXIST_CHECK_SUCCESS, hasCafe);
+    }
+
 }
