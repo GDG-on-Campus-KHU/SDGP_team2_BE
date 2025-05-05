@@ -5,7 +5,7 @@ import com.gdg.coffee.domain.cafe.domain.Cafe;
 
 import java.util.Optional;
 
-public interface CafeRepository extends JpaRepository<Cafe, Long> {
+public interface CafeRepository extends JpaRepository<Cafe, Long>, CafeRepositoryCustom {
     Optional<Cafe> findByMemberId(Long memberId);
     boolean existsByMemberId(Long memberId);
 }
