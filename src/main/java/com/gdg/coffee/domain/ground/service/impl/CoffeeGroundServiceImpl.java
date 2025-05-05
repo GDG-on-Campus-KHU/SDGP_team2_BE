@@ -7,6 +7,7 @@ import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
+import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
 import com.gdg.coffee.domain.ground.dto.CoffeeGroundRequestDto;
 import com.gdg.coffee.domain.ground.dto.CoffeeGroundResponseDto;
 import com.gdg.coffee.domain.ground.exception.CoffeeGroundErrorCode;
@@ -89,5 +90,28 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
         }
 
         groundRepo.delete(ground);
+    }
+    /**
+     * 원두 수거 요청 완료 시, 원두의 남은 양을 감소시키고 상태를 확인하는 메서드
+     * @param groundId 원두 ID
+     * @param amountDecreased 감소할 양
+     */
+    @Override
+    @Transactional
+    public void decreaseAmountAndCheckStatus(Long groundId, float amountDecreased){
+        CoffeeGround ground = groundRepo.findById(groundId)
+                .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_NOT_FOUND));
+
+        // remainingAmount를 감소
+        float newAmount = ground.getRemainingAmount() - amountDecreased;
+
+        ground.setRemainingAmount(newAmount); // Setter 사용
+
+        // 감소 후 잔여량에 따라 상태(status)를 업데이트
+        if (newAmount == 0) {
+            ground.setStatus(CoffeeGroundStatus.COMPLETED); // CoffeeGroundStatus enum 사용
+        } else {
+            ground.setStatus(CoffeeGroundStatus.IN_PROGRESS); // CoffeeGroundStatus enum 사용
+        }
     }
 }

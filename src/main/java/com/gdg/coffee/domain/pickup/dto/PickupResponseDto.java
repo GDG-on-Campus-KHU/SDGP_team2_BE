@@ -19,6 +19,7 @@ public class PickupResponseDto {
     private float amount;               // 수거 양
     private String message;             // 수거 요청 메시지 (선택)
     private LocalDate pickupDate;       // 희망 수거일
+    private PickupStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -30,6 +31,7 @@ public class PickupResponseDto {
                 .amount(pickup.getAmount())
                 .message(pickup.getMessage())
                 .pickupDate(pickup.getPickupDate())
+                .status(pickup.getStatus())
                 .createdAt(pickup.getCreatedDate())
                 .updatedAt(pickup.getModifiedDate())
                 .build();

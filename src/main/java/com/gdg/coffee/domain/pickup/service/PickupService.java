@@ -1,8 +1,8 @@
 package com.gdg.coffee.domain.pickup.service;
 
-import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
+import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
@@ -28,6 +28,7 @@ public class PickupService {
     private final PickupRepository pickupRepository;
     private final MemberRepository memberRepository;
     private final CoffeeGroundRepository coffeeGroundRepository;
+    private final CoffeeGroundService coffeeGroundService;
 
     // 1. 수거 요청 생성 (일반 사용자)
     public PickupResponseDto createPickup(Long memberId, Long groundId, PickupRequestDto requestDto) {
@@ -42,7 +43,7 @@ public class PickupService {
             throw  new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
         }
 
-        if (requestDto.getAmount() <= 0) {
+        if (requestDto.getAmount() <= 0 && ground.getRemainingAmount() < requestDto.getAmount()) {
             throw new PickupException(PickupErrorCode.INVALID_INPUT);
         }
 
@@ -72,6 +73,26 @@ public class PickupService {
     public void updatePickupStatus(Long pickupId, PickupStatus status) {
         Pickup pickup = pickupRepository.findById(pickupId)
                 .orElseThrow(() -> new PickupException(PickupErrorCode.PICKUP_NOT_FOUND));
+
+        // 해당 수거 요청이 이미 완료된 상태인지 확인
+        if (pickup.getStatus() == PickupStatus.COMPLETED) {
+            throw new PickupException(PickupErrorCode.ALREADY_COMPLETED);
+        }
+
+        // 해당 수거 요청이 이미 거절된 상태인지 확인
+        if (pickup.getStatus() == PickupStatus.REJECTED){
+            throw new PickupException(PickupErrorCode.ALREADY_REJECTED);
+        }
+
+        // 해당 수거 요청이 수락된 상태라면, 거절 또는 대기 상태로 변경할 수 없음
+        if(pickup.getStatus() == PickupStatus.ACCEPTED && (status == PickupStatus.REJECTED || status == PickupStatus.PENDING)) {
+            throw new PickupException(PickupErrorCode.CANNOT_CANCEL);
+        }
+
+        // 수거 요청이 완료로 변경되는 경우
+        if(status == PickupStatus.COMPLETED) {
+            coffeeGroundService.decreaseAmountAndCheckStatus(pickup.getGround().getGroundId(), pickup.getAmount());
+        }
 
         pickup.updatePickupStatus(status);
     }

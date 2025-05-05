@@ -15,4 +15,6 @@ public interface CoffeeGroundService {
 
     /** 원두 삭제 */
     void deleteGround(Long groundId, Long memberId);
+
+    void decreaseAmountAndCheckStatus(Long groundId, float amountDecreased);
 }
