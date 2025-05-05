@@ -64,9 +64,9 @@ public class PickupController {
             @RequestParam(value = "status", required = false) PickupStatus status
     ) {
         // SecurityUtil 에서 카페 ID를 꺼내옵니다
-        Long cafeId = SecurityUtil.getCurrentMemberId();
+        Long memberId = SecurityUtil.getCurrentMemberId();
         List<PickupCafeSummaryDto> pickups =
-                pickupService.getCafePickupList(cafeId, status);
+                pickupService.getCafePickupList(memberId, status);
 
         return ApiResponse.success(
                 PickupSuccessCode.PICKUP_GET_LIST_SUCCESS,
@@ -124,7 +124,8 @@ public class PickupController {
             @PathVariable Long pickupId,
             @RequestBody PickupStatusUpdateRequestDto requestDto
     ) {
-        pickupService.updatePickupStatus(pickupId, requestDto.getStatus());
+        Long memberId = SecurityUtil.getCurrentMemberId();
+        pickupService.updatePickupStatus(pickupId, memberId, requestDto.getStatus());
         return ApiResponse.success(PickupSuccessCode.PICKUP_STATUS_UPDATE_SUCCESS);
     }
 
