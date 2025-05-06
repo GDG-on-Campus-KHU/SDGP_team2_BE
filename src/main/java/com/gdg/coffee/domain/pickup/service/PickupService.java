@@ -1,8 +1,10 @@
 package com.gdg.coffee.domain.pickup.service;
 
+import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
+import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
 import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.domain.MemberRole;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
@@ -27,7 +29,9 @@ public class PickupService {
 
     private final PickupRepository pickupRepository;
     private final MemberRepository memberRepository;
+    private final CafeRepository cafeRepository;
     private final CoffeeGroundRepository coffeeGroundRepository;
+    private final CoffeeGroundService coffeeGroundService;
 
     // 1. 수거 요청 생성 (일반 사용자)
     public PickupResponseDto createPickup(Long memberId, Long groundId, PickupRequestDto requestDto) {
@@ -42,7 +46,7 @@ public class PickupService {
             throw  new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
         }
 
-        if (requestDto.getAmount() <= 0) {
+        if (requestDto.getAmount() <= 0 && ground.getRemainingAmount() < requestDto.getAmount()) {
             throw new PickupException(PickupErrorCode.INVALID_INPUT);
         }
 
@@ -69,9 +73,33 @@ public class PickupService {
     }
 
     // 3. 수거 요청 상태 변경 (카페 측에서 상태 수락/거절/완료 등)
-    public void updatePickupStatus(Long pickupId, PickupStatus status) {
+    public void updatePickupStatus(Long pickupId, Long memberId, PickupStatus status) {
         Pickup pickup = pickupRepository.findById(pickupId)
                 .orElseThrow(() -> new PickupException(PickupErrorCode.PICKUP_NOT_FOUND));
+
+        if (!pickup.getGround().getCafe().getMember().getId().equals(memberId)) {
+            throw new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
+        }
+
+        // 해당 수거 요청이 이미 완료된 상태인지 확인
+        if (pickup.getStatus() == PickupStatus.COMPLETED) {
+            throw new PickupException(PickupErrorCode.ALREADY_COMPLETED);
+        }
+
+        // 해당 수거 요청이 이미 거절된 상태인지 확인
+        if (pickup.getStatus() == PickupStatus.REJECTED){
+            throw new PickupException(PickupErrorCode.ALREADY_REJECTED);
+        }
+
+        // 해당 수거 요청이 수락된 상태라면, 거절 또는 대기 상태로 변경할 수 없음
+        if(pickup.getStatus() == PickupStatus.ACCEPTED && (status == PickupStatus.REJECTED || status == PickupStatus.PENDING)) {
+            throw new PickupException(PickupErrorCode.CANNOT_CANCEL);
+        }
+
+        // 수거 요청이 완료로 변경되는 경우
+        if(status == PickupStatus.COMPLETED) {
+            coffeeGroundService.decreaseAmountAndCheckStatus(pickup.getGround().getGroundId(), pickup.getAmount());
+        }
 
         pickup.updatePickupStatus(status);
     }
@@ -86,7 +114,11 @@ public class PickupService {
 
     // 5. 수거 요청 목록 조회
     // (1) 카페가 등록한 찌꺼기 기준 전체 요청 조회
-    public List<PickupCafeSummaryDto> getCafePickupList(Long cafeId, PickupStatus status) {
+    public List<PickupCafeSummaryDto> getCafePickupList(Long memberId, PickupStatus status) {
+        // 카페 운영자인지 확인
+        Cafe cafe = cafeRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS));
+        Long cafeId = cafe.getId();
         return pickupRepository.findCafePickupListByStatusDsl(cafeId, status);
     }
 

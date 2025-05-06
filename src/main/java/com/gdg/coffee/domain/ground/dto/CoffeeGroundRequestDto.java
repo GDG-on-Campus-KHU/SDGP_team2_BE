@@ -24,7 +24,7 @@ public class CoffeeGroundRequestDto {
                 .bean(bean)
                 .startDateTime(startDateTime.toLocalDate().atStartOfDay())
                 .totalAmount(amount)
-                .remainingAmount(0F)
+                .remainingAmount(amount)
                 .note(note)
                 .status(CoffeeGroundStatus.WAITING)
                 .build();

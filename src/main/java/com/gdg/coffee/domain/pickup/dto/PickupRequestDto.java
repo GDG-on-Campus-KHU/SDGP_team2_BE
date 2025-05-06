@@ -19,6 +19,7 @@ public class PickupRequestDto {
         return Pickup.builder()
                 .member(member)
                 .ground(ground)
+                .status(PickupStatus.PENDING) // 초기 상태는 대기 중
                 .pickupDate(requestDto.getPickupDate())
                 .amount(requestDto.getAmount())
                 .message(requestDto.getMessage())
