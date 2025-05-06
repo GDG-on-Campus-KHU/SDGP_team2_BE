@@ -8,6 +8,7 @@ import com.gdg.coffee.domain.pickup.domain.QPickup;
 import com.gdg.coffee.domain.pickup.dto.PickupCafeSummaryDto;
 import com.gdg.coffee.domain.pickup.dto.PickupStatus;
 import com.gdg.coffee.domain.pickup.dto.PickupUserSummaryDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -29,37 +30,58 @@ public class PickupRepositoryImpl implements PickupRepositoryCustom{
 
     @Override
     public List<PickupCafeSummaryDto> findCafePickupListByStatusDsl(Long cafeId, PickupStatus status) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(g.cafe.id.eq(cafeId));
+
+        if (status != null) {
+            builder.and(p.status.eq(status));
+        }
+
         return queryFactory
                 .select(Projections.constructor(
                         PickupCafeSummaryDto.class,
-                        p.id, m.username, p.pickupDate, p.createdDate, b.name, p.amount, p.status
+                        p.id,
+                        m.username,
+                        p.pickupDate,
+                        p.createdDate,
+                        b.name,
+                        p.amount,
+                        p.status
                 ))
                 .from(p)
-                .join(p.member, m)
-                .join(p.ground, g)
-                .join(g.bean, b)
-                .where(
-                        g.cafe.id.eq(cafeId),
-                        status != null ? p.status.eq(status) : null
-                )
+                .join(p.member, m).fetchJoin()   // Lazy 로딩 방지
+                .join(p.ground, g).fetchJoin()
+                .join(g.bean, b).fetchJoin()
+                .where(builder)
                 .fetch();
     }
 
     @Override
     public List<PickupUserSummaryDto> findUserPickupListByStatusDsl(Long userId, PickupStatus status) {
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(p.member.id.eq(userId));
+
+        if (status != null) {
+            builder.and(p.status.eq(status));
+        }
+
         return queryFactory
                 .select(Projections.constructor(
                         PickupUserSummaryDto.class,
-                        p.id, c.name, p.pickupDate, p.createdDate, b.name, p.amount, p.status
+                        p.id,
+                        c.name,
+                        p.pickupDate,
+                        p.createdDate,
+                        b.name,
+                        p.amount,
+                        p.status
                 ))
                 .from(p)
-                .join(p.ground, g)
-                .join(g.cafe, c)
-                .join(g.bean, b)
-                .where(
-                        p.member.id.eq(userId),
-                        status != null ? p.status.eq(status) : null
-                )
+                .join(p.ground, g).fetchJoin()
+                .join(g.cafe, c).fetchJoin()
+                .join(g.bean, b).fetchJoin()
+                .where(builder)
                 .fetch();
     }
+
 }
