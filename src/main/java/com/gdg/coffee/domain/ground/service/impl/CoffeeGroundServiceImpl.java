@@ -14,7 +14,6 @@ import com.gdg.coffee.domain.ground.exception.CoffeeGroundErrorCode;
 import com.gdg.coffee.domain.ground.exception.CoffeeGroundException;
 import com.gdg.coffee.domain.ground.repository.CoffeeGroundRepository;
 import com.gdg.coffee.domain.ground.service.CoffeeGroundService;
-import com.gdg.coffee.domain.member.domain.Member;
 import com.gdg.coffee.domain.member.exception.MemberErrorCode;
 import com.gdg.coffee.domain.member.exception.MemberException;
 import com.gdg.coffee.domain.member.repository.MemberRepository;
