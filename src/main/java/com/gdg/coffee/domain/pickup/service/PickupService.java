@@ -46,7 +46,7 @@ public class PickupService {
             throw  new PickupException(PickupErrorCode.UNAUTHORIZED_ACCESS);
         }
 
-        if (requestDto.getAmount() <= 0 && ground.getRemainingAmount() < requestDto.getAmount()) {
+        if (requestDto.getAmount() <= 0 || ground.getRemainingAmount() < requestDto.getAmount()) {
             throw new PickupException(PickupErrorCode.INVALID_INPUT);
         }
 

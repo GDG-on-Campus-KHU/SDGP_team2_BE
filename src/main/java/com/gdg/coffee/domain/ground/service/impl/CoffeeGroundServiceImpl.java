@@ -82,7 +82,7 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
         CoffeeGround ground = groundRepo.findById(groundId)
                 .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_NOT_FOUND));
 
-        Cafe cafe = cafeRepo.findById(memberId)
+        Cafe cafe = cafeRepo.findByMemberId(memberId)
                 .orElseThrow(() -> new CoffeeGroundException(CoffeeGroundErrorCode.GROUND_FORBIDDEN));
 
         if(!ground.getCafe().getId().equals(cafe.getId())) {
