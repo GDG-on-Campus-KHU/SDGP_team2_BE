@@ -19,7 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.Map;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 
 @Tag(name = "Auth", description = "인증 관련 API")
@@ -85,8 +86,15 @@ public class AuthController {
         """
     )
     @GetMapping("/google/callback")
-    public ResponseEntity<ApiResponse<MemberLoginResponseDto>> googleCallback(@RequestParam("code") String code) {
-        MemberLoginResponseDto response = googleOAuthService.loginGoogle(code);
-        return ResponseEntity.ok(ApiResponse.success(AuthSuccessCode.LOGIN_SUCCESS, response));
+    public void googleCallback(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
+        MemberLoginResponseDto dto = googleOAuthService.loginGoogle(code);
+
+        // 프론트엔드 리다이렉트 URL (개발 시에는 localhost로)
+        String redirectUrl = "http://localhost:8080/oauth/google/callback" +
+                "?accessToken=" + dto.getAccessToken() +
+                "&refreshToken=" + dto.getRefreshToken() +
+                "&username=" + URLEncoder.encode(dto.getUsername(), StandardCharsets.UTF_8);
+
+        response.sendRedirect(redirectUrl);
     }
 }
