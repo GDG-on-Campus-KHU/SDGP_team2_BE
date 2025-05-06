@@ -22,6 +22,9 @@ import com.gdg.coffee.domain.cafe.service.CafeService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -104,5 +107,15 @@ public class CafeServiceImpl implements CafeService {
 
         cafe.update(requestDto);          // dto 필드가 null 이면 유지
         return CafeResponseDto.fromEntity(cafe);
+    }
+
+    @Override
+    public List<CafeResponseDto> findCafesNear(double latitude, double longitude){
+        // 반경 5km 내 Cafe 엔티티 목록을 조회
+        List<Cafe> cafes = cafeRepository.findCafesNear(latitude, longitude);
+
+        return cafes.stream()
+                .map(CafeResponseDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

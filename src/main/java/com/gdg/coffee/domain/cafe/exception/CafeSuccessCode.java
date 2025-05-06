@@ -8,8 +8,8 @@ public enum CafeSuccessCode implements SuccessResponse {
     CAFE_GET_SUCCESS      (HttpStatus.OK,      "CAFE_GET_SUCCESS",       "카페 정보를 성공적으로 조회했습니다."),
     CAFE_GET_LIST_SUCCESS (HttpStatus.OK,      "CAFE_GET_LIST_SUCCESS",  "카페 목록을 성공적으로 조회했습니다."),
     CAFE_UPDATE_SUCCESS   (HttpStatus.OK,      "CAFE_UPDATE_SUCCESS",    "카페 정보가 성공적으로 수정되었습니다."),
-    CAFE_EXIST_CHECK_SUCCESS(HttpStatus.OK, "CAFE_EXIST_CHECK_SUCCESS", "카페 존재 여부를 성공적으로 확인했습니다.");
-
+    CAFE_EXIST_CHECK_SUCCESS(HttpStatus.OK, "CAFE_EXIST_CHECK_SUCCESS", "카페 존재 여부를 성공적으로 확인했습니다."),
+    CAFE_GET_NEARBY_LIST_SUCCESS(HttpStatus.OK, "CAFE_GET_NEARBY_LIST_SUCCESS", "반경 내 카페 목록을 성공적으로 조회했습니다.");
 
     private final HttpStatus httpStatus;
     private final String code;

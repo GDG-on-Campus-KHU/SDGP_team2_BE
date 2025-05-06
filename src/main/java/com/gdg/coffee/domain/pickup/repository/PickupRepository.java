@@ -16,5 +16,6 @@ public interface PickupRepository extends JpaRepository<Pickup, Long>, PickupRep
     List<Pickup> findByGroundCafeId(Long cafeId);
     // 사용자 기준 전체 수거 요청 조회
     List<Pickup> findByMemberId(Long memberId);
-
+    // 사용자 기준 수거 요청 상태별 조회
+    List<Pickup> findByMemberIdAndStatus(Long memberId, PickupStatus status);
 }
