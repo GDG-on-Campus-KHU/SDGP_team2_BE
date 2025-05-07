@@ -77,9 +77,9 @@ public class PickupRepositoryImpl implements PickupRepositoryCustom{
                         p.status
                 ))
                 .from(p)
-                .join(p.ground, g).fetchJoin()
-                .join(g.cafe, c).fetchJoin()
-                .join(g.bean, b).fetchJoin()
+                .join(p.ground, g)
+                .join(g.cafe, c)
+                .join(g.bean, b)
                 .where(builder)
                 .fetch();
     }
