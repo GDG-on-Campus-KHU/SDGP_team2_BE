@@ -49,9 +49,9 @@ public class PickupRepositoryImpl implements PickupRepositoryCustom{
                         p.status
                 ))
                 .from(p)
-                .join(p.member, m).fetchJoin()   // Lazy 로딩 방지
-                .join(p.ground, g).fetchJoin()
-                .join(g.bean, b).fetchJoin()
+                .join(p.member, m) // fetchJoin 제거
+                .join(p.ground, g)
+                .join(g.bean, b)
                 .where(builder)
                 .fetch();
     }

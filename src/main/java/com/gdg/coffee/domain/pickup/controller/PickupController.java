@@ -118,11 +118,11 @@ public class PickupController {
     @PutMapping("/pickups/{pickupId}/status")
     @Operation(summary = "수거 요청 상태 변경", description = """
         ## 수거 요청의 상태를 변경합니다.
-            수거 요청 상태 종류: 
-            PENDING,
-            ACCEPTED,
-            COMPLETED,
-            REJECTED
+        수거 요청 상태 종류: 
+        PENDING,
+        ACCEPTED,
+        COMPLETED,
+        REJECTED
         """)
     public ApiResponse<Void> updatePickupStatus(
             @PathVariable Long pickupId,
