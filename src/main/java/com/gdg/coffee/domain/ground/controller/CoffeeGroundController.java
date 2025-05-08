@@ -62,7 +62,7 @@ public class CoffeeGroundController {
 
     /* 4. 목록 (특정 카페의 찌꺼기 목록, 전체 공개) */
     @GetMapping("/coffee_grounds/cafe/{cafeId}")
-    @Operation(summary = "카페별 찌꺼기 목록 조회 (전체 공개)", description = """
+    @Operation(summary = "카페별 찌꺼기 목록 조회", description = """
         ## 특정 카페가 등록한 모든 커피 찌꺼기 목록을 상세 정보와 함께 조회합니다.
         - 카페 ID를 경로 변수로 전달해야 합니다.
         - 누구나 접근 가능하며, 카페/사용자 모두 확인 가능합니다.
