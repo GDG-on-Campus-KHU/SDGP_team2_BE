@@ -46,8 +46,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/member/info").hasRole("USER")
                                 .requestMatchers(HttpMethod.GET, "/api/cafes/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/beans/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/grounds/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/api/grounds").hasRole("CAFE")
+                                .requestMatchers(HttpMethod.GET, "/api/coffee_grounds/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/coffee_grounds").hasRole("CAFE")
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);

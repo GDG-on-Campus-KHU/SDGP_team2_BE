@@ -5,6 +5,7 @@ import com.gdg.coffee.domain.bean.exception.BeanErrorCode;
 import com.gdg.coffee.domain.bean.repository.BeanRepository;
 import com.gdg.coffee.domain.cafe.domain.Cafe;
 import com.gdg.coffee.domain.cafe.exception.CafeErrorCode;
+import com.gdg.coffee.domain.cafe.exception.CafeException;
 import com.gdg.coffee.domain.cafe.repository.CafeRepository;
 import com.gdg.coffee.domain.ground.domain.CoffeeGround;
 import com.gdg.coffee.domain.ground.domain.CoffeeGroundStatus;
@@ -74,6 +75,15 @@ public class CoffeeGroundServiceImpl implements CoffeeGroundService {
 
         return groundRepo.findAllByCafeId(cafe.getId()).stream()
                 .map(CoffeeGroundResponseDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CoffeeGroundResponseDto> getGroundsByCafeId(Long cafeId){
+        cafeRepo.findById(cafeId).orElseThrow(() -> new CafeException(CafeErrorCode.CAFE_NOT_FOUND));
+
+        return groundRepo.findAllByCafeId(cafeId).stream()
+                .map(CoffeeGroundResponseDto::fromEntity) // 엔티티를 DTO로 매핑
                 .collect(Collectors.toList());
     }
 
