@@ -13,6 +13,9 @@ public interface CoffeeGroundService {
     /** 카페별 원두 목록 조회 */
     List<CoffeeGroundResponseDto> getGroundsOfCafe(Long memberId);
 
+    /** 카페별 원두 목록 조회 (카페 ID로) */
+    List<CoffeeGroundResponseDto> getGroundsByCafeId(Long cafeId);
+
     /** 원두 삭제 */
     void deleteGround(Long groundId, Long memberId);
 

@@ -48,7 +48,7 @@ public class CoffeeGroundController {
         return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_GET_SUCCESS, response);
     }
 
-    /* 3. 목록 (카페별) */
+    /* 3. 목록 (내 카페의 찌꺼기 목록) */
     @GetMapping("/cafe/coffee_grounds")
     @Operation(summary = "[구현완료] 내 카페 커피 찌꺼기 목록 조회", description = """
         ## 로그인한 카페 사용자의 소속 카페에서 등록한 찌꺼기 목록을 조회합니다.
@@ -58,6 +58,19 @@ public class CoffeeGroundController {
         Long memberId = SecurityUtil.getCurrentMemberId();
         List<CoffeeGroundResponseDto> response = groundService.getGroundsOfCafe(memberId);
         return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_LIST_SUCCESS, response);
+    }
+
+    /* 4. 목록 (특정 카페의 찌꺼기 목록, 전체 공개) */
+    @GetMapping("/coffee_grounds/cafe/{cafeId}")
+    @Operation(summary = "카페별 찌꺼기 목록 조회 (전체 공개)", description = """
+        ## 특정 카페가 등록한 모든 커피 찌꺼기 목록을 상세 정보와 함께 조회합니다.
+        - 카페 ID를 경로 변수로 전달해야 합니다.
+        - 누구나 접근 가능하며, 카페/사용자 모두 확인 가능합니다.
+        - 응답은 해당 카페가 등록한 찌꺼기의 상세 정보 목록입니다.
+        """)
+    public ApiResponse<List<CoffeeGroundResponseDto>> getGroundsByCafeId(@PathVariable("cafeId") Long cafeId) {
+        List<CoffeeGroundResponseDto> coffeeGrounds = groundService.getGroundsByCafeId(cafeId);
+        return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_LIST_SUCCESS, coffeeGrounds); // 기존 SuccessCode 사용
     }
 
     /* 4. 삭제 */
