@@ -1,12 +1,10 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Java-17+-orange?style=for-the-badge&logo=openjdk&logoColor=white"/>
-  <img src="https://img.shields.io/badge/SpringBoot-3.x-green?style=for-the-badge&logo=springboot"/>
-  <img src="https://img.shields.io/badge/SpringSecurity-Authentication-brightgreen?style=for-the-badge&logo=springsecurity"/>
-  <img src="https://img.shields.io/badge/MySQL-Relational-blue?style=for-the-badge&logo=mysql"/>
-  <img src="https://img.shields.io/badge/Redis-Cache-red?style=for-the-badge&logo=redis"/>
-  <img src="https://img.shields.io/badge/AWS-S3-orange?style=for-the-badge&logo=amazonaws"/>
-  <img src="https://img.shields.io/badge/Gemini-API-lightgray?style=for-the-badge&logo=google"/>
-  <img src="https://img.shields.io/badge/SpringDoc-OpenAPI-8CC <color>?style=for-the-badge&logo=openapiinitiative&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Java-17+-orange?style=flat-square&logo=openjdk&logoColor=white"/>
+  <img src="https://img.shields.io/badge/SpringBoot-3.x-green?style=flat-square&logo=springboot"/>
+  <img src="https://img.shields.io/badge/MySQL-Relational-blue?style=flat-square&logo=mysql"/>
+  <img src="https://img.shields.io/badge/Redis-Cache-red?style=flat-square&logo=redis"/>
+  <img src="https://img.shields.io/badge/Docker-Container-2496ED?style=flat-square&logo=docker"/>
+  <img src="https://img.shields.io/badge/GCP-Cloud-4285F4?style=flat-square&logo=googlecloud"/>
   </p>
 
 <h1 align="center">☕ CoffeeReturn (커피 리턴)</h1>
