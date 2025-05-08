@@ -4,151 +4,196 @@
   <img src="https://img.shields.io/badge/SpringSecurity-Authentication-brightgreen?style=for-the-badge&logo=springsecurity"/>
   <img src="https://img.shields.io/badge/MySQL-Relational-blue?style=for-the-badge&logo=mysql"/>
   <img src="https://img.shields.io/badge/Redis-Cache-red?style=for-the-badge&logo=redis"/>
+  <img src="https://img.shields.io/badge/AWS-S3-orange?style=for-the-badge&logo=amazonaws"/>
   <img src="https://img.shields.io/badge/Gemini-API-lightgray?style=for-the-badge&logo=google"/>
   <img src="https://img.shields.io/badge/SpringDoc-OpenAPI-8CC <color>?style=for-the-badge&logo=openapiinitiative&logoColor=white"/>
-</p>
+  </p>
 
-<h1 align="center">☕ CoffeeReturn - Backend</h1>
-<h3 align="center">A cup of coffee for the Earth,<br>Backend system for an eco-friendly map-based platform for the circulation of coffee grounds</h3>
+<h1 align="center">☕ CoffeeReturn (커피 리턴)</h1>
+<h3 align="center">지구를 위한 커피 한 잔,<br>원두 찌꺼기의 순환을 위한 친환경 지도 기반 플랫폼</h3>
 
 <br/>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/your-image-path/demo.gif" width="70%" alt="CoffeeReturn Backend Overview or Demo">
+  <img src="https://user-images.githubusercontent.com/your-image-path/demo.gif" width="70%" alt="CoffeeReturn Demo">
 </p>
 
 ---
 
-## 📌 Project Overview
+## 📌 프로젝트 개요
 
-> **CoffeeReturn** is a platform designed to reduce the indiscriminate disposal of coffee grounds and
-> **an eco-friendly collection network platform connecting cafes and users.**
-> This repository manages the code for the project's **backend system**. It is responsible for core business logic such as handling user requests, data management, and external service integration.
+> **CoffeeReturn**은 커피 찌꺼기의 무분별한 폐기를 줄이고,  
+> **카페와 사용자를 연결하는 친환경 수거 네트워크 플랫폼**입니다.
 
----
+> 이 레포지토리는 백엔드 코드를 관리합니다.
 
-## 🎯 Project Goals
-
-- ♻️ **Promote the recycling of coffee grounds**
-- 👥 **Automate matching between users and cafes**
-- 🧠 **Provide AI solutions based on Gemini API**
-- 🌍 **Foster an eco-friendly practice culture**
+- 🗺️ **지도 기반 수거소 검색**
+- 🧑‍🍳 **카페의 찌꺼기 등록 및 관리**
+- 🤖 **AI가 추천하는 찌꺼기 활용법**
+- 📊 **환경 기여도 리포트 자동 생성**
 
 ---
 
-## 🧩 Key Features
+## 🎯 프로젝트 목표
 
-The backend implements and supports the core APIs and business logic for the following key features provided by the frontend.
-
-### 🗺️ 1. Home Screen (Map-based Collection Point Search)
-- Display collection points on map based on current location
-- Marker click → Detail information popup
-- Support cafe/public/corporate filter functions
-
-### 🔐 2. Login / Sign-up
-- Spring Security and JWT-based user authentication/authorization system
-- Kakao / Google social login integration logic
-
-### 🧑‍🍳 3. Cafe Management Page
-- Provide API for cafe information registration, lookup, modification, deletion
-- Implement API for cafe operators to register grounds, manage collection requests (acceptance/rejection, etc.)
-- Provide API for managing my cafe information
-
-### 👤 4. User My Page
-- Provide API for viewing collection application history
-- Implement API for status check (Pending / Accepted / Completed)
-- Provide API for viewing contribution report
-
-### 🤖 5. AI Solution *(Future Feature)*
-- Implement Gemini API integration logic (Planned)
-- Implement bean-based personalized usage recommendation logic (Planned)
-- Implement activity-based environmental contribution analysis logic (Planned)
-
-### 📊 6. Environmental Contribution Report
-- Implement API for calculating and viewing environmental contribution reports by user/cafe role
-- Provide data for carbon reduction amount, sorted waste index visualization
-- Implement user/cafe comparison reports
-
-### 🛍️ 7. Upcycling Market / Community *(Future Feature)*
-- Implement API for product/post data management (Planned)
-- Implement 1:1 chat function (Planned)
+- ♻️ **원두 찌꺼기의 재활용 활성화**
+- 👥 **사용자 ↔ 카페 간 매칭 자동화**
+- 🧠 **Gemini API 기반 AI 솔루션 제공**
+- 🌍 **친환경 실천 문화 조성**
+</p>
 
 ---
-### 📦 Local Setup (Getting Started)
 
-Steps to get the project running in your local development environment.
+## 🧩 주요 기능
 
-**Prerequisites:**
+### 🗺️ 1. 홈화면 (지도 기반 수거소 검색)
+- 현재 위치 기반 수거소 지도 표시
+- 마커 클릭 → 상세 정보 팝업
+- 카페/공공/기업 필터 기능 지원
+
+### 🔐 2. 로그인 / 회원가입
+- 카카오 / 구글 소셜 로그인
+- 사용자 유형 선택 (일반 사용자 / 카페 운영자)
+
+### 🧑‍🍳 3. 카페 관리 페이지
+- 원두 정보 등록
+- 찌꺼기 등록 및 수거 요청 수락/거절
+- 내 카페 정보 관리
+
+### 👤 4. 사용자 마이페이지
+- 수거 신청 내역 조회
+- 상태 확인 (대기 / 수락 / 완료)
+- 기여 리포트 열람
+
+### 🤖 5. AI 솔루션 *(추후 기능)*
+- 원두 기반 맞춤 활용법 추천 (비료, 스크럽제 등)
+- 활동 기반 환경 기여 분석 (Gemini API)
+
+### 📊 6. 환경 기여도 리포트
+- 탄소 절감량, 분리배출 지수
+- 사용자/카페 비교 리포트
+
+### 🛍️ 7. 업사이클링 마켓 / 커뮤니티 *(추후 기능)*
+- 커피 찌꺼기 제품 나눔 및 거래
+- 게시판 기반 커뮤니티
+- (후순위 기능: 1:1 채팅)
+
+---
+
+## ⚙️ 사용 기술 스택
+
+### 💻 Back-End
+
+| 기술 스택                   |
+| :-------------------------- |
+| `Java 17+`                  |
+| `Spring Boot 3.x`           |
+| `Spring Security`           |
+| `JWT`                       |
+| `OAuth2 Client`             |
+| `Spring Data JPA`           |
+| `Hibernate`                 |
+| `QueryDSL`                  |
+| `MySQL`                     |
+| `Redis`                     |
+| `AWS S3 SDK`                |
+| `Gemini API`                |
+| `SpringDoc (Swagger UI)`    |
+| `Spring Validation API`     |
+| `Lombok`                    |
+| `SLF4j / Logback`           |
+| `GitHub Actions`            |
+
+---
+
+### 🌐 Front-End
+
+| 기술 스택         |
+| :---------------- |
+| `TypeScript`      |
+| `React`           |
+| `Tailwind CSS`    |
+| `Google maps API` |
+| `Zod`             |
+| `Firebase Hosting`|
+
+---
+
+### 📦 로컬 환경 설정 (Getting Started)
+
+프로젝트를 로컬 개발 환경에서 실행하기 위한 방법입니다.
+
+**사전 준비:**
 
 * Java 17+
-* Docker Desktop or Docker Engine
+* Docker Desktop 또는 Docker Engine
 * Gradle
 
-**Steps:**
+**단계:**
 
-1.  **Clone the repository:**
+1.  **저장소 복제:**
     ```bash
-    git clone <Your GitHub BE Repository URL>
+    git clone <본인 GitHub BE 레포지토리 URL>
     cd SDGP_team2_BE
     ```
 
-2.  **Configuration:**
-    * Configure the `src/main/resources/application.yaml` file and a `.env` file for your local development environment.
+2.  **환경 설정:**
+    * `src/main/resources/application.yaml` 파일과 `.env` 파일을 로컬 개발 환경에 맞게 설정해야 합니다.
 
-3.  **Run Required Middleware:**
-    Use the `docker-compose.yaml` file in the project root to run the necessary containers for the application's middleware. (This `docker-compose.yaml` file is also used for CI/CD purposes and may require some configuration changes for local execution.)
+3.  **필요 미들웨어 실행:**
+    프로젝트 루트의 `docker-compose.yaml` 파일을 사용하여 애플리케이션 실행에 필요한 컨테이너들을 실행합니다. (이 `docker-compose.yaml` 파일은 CI/CD 목적으로도 사용되고 있으며, 로컬 실행을 위해 일부 설정을 확인하거나 변경해야 할 수 있습니다.)
     ```bash
     docker-compose up -d
     ```
-    *(After running Docker Compose, ensure the MySQL and Redis containers are running correctly.)*
+    *(Docker Compose 실행 후 MySQL 및 Redis 컨테이너가 정상적으로 동작하는지 확인하세요.)*
 
-4.  **Build and Run the Application:**
-    * Build the project using the Gradle Wrapper.
+4.  **애플리케이션 빌드 및 실행:**
+    * Gradle Wrapper를 사용하여 프로젝트를 빌드합니다.
         ```bash
         ./gradlew clean build
         ```
-    * Run from your IDE or execute the resulting JAR file. The built JAR file is created in the `build/libs` directory.
+    * IDE에서 실행하거나, 빌드 결과물인 JAR 파일을 실행합니다. 빌드된 JAR 파일은 `build/libs` 디렉토리에 생성됩니다.
         ```bash
-        java -jar build/libs/<project-name-version>.jar
+        java -jar build/libs/<프로젝트 이름-버전>.jar
         ```
-    *(Check the `build/libs` directory for the actual built JAR filename.)*
+    *(실제 빌드된 JAR 파일명은 `build/libs` 디렉토리에서 확인하세요.)*
 
 ---
 
-### 📄 API Documentation (Swagger UI)
+### 📄 API 문서 (Swagger UI)
 
-After running the application, you can check the API documentation at the following paths.
+애플리케이션 실행 후 다음 경로에서 API 문서를 확인할 수 있습니다.
 
 * **Swagger UI:** `http://localhost:8080/swagger-ui.html`
 * **OpenAPI 3 JSON:** `http://localhost:8080/v3/api-docs`
 
-The documentation is automatically generated based on annotations like `@Operation`, `@Tag`, etc., defined in the controller code via the SpringDoc library.
+SpringDoc 라이브러리를 통해 컨트롤러 코드에 정의된 `@Operation`, `@Tag` 등의 어노테이션을 기반으로 자동 생성됩니다.
 
 ---
 
-### 🚀 Deployment Environment
+### 🚀 배포 환경
 
-This backend application is deployed and served within the **GCP (Google Cloud Platform)** environment.
-
----
-
-## 🚀 Development Roadmap
-
-- ✅ Social Login / Sign-up
-- ✅ Map-based Collection Point Search API
-- ✅ Cafe Management and Collection Request related APIs
-- ✅ User My Page related APIs
-- ✅ Environmental Contribution Report API
-- ✅ Specific Cafe Grounds List Lookup API
-- 🔄 AI Solution Integration and Logic Implementation *(Planned)*
-- 🔄 Upcycling Market / Community related APIs *(Lower priority)*
+본 백엔드 애플리케이션은 **GCP (Google Cloud Platform)** 환경에 배포되어 서비스되고 있습니다.
 
 ---
 
-## 📬 Inquiry & Contribution
+## 🚀 개발 로드맵
 
-> 🙌 Contributions, Feature Requests, and Bug Reports are all welcome!
+- ✅ 소셜 로그인 / 회원가입
+- ✅ 지도 기반 수거소 검색 API
+- ✅ 카페 관리 및 수거 요청 관련 API
+- ✅ 사용자 마이페이지 관련 API
+- ✅ 환경 기여도 리포트 API
+- ✅ 특정 카페 찌꺼기 목록 조회 API
+- 🔄 AI 솔루션 연동 및 로직 구현 *(진행 예정)*
+- 🔄 업사이클링 마켓 / 커뮤니티 관련 API *(후순위)*
 
 ---
 
-<p align="center"><i>A daily cup of coffee becomes an action to protect the Earth 🌍</i></p>
+## 📬 문의 & 기여
+
+> 🙌 기여(Contribution), 제안(Feature Request), 버그 리포트 모두 환영합니다!
+
+---
+
+<p align="center"><i>매일 마시는 커피 한 잔이 지구를 지키는 행동이 됩니다 🌍</i></p>
