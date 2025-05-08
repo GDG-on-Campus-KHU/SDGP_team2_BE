@@ -73,7 +73,7 @@ public class CoffeeGroundController {
         return ApiResponse.success(CoffeeGroundSuccessCode.GROUND_LIST_SUCCESS, coffeeGrounds); // 기존 SuccessCode 사용
     }
 
-    /* 4. 삭제 */
+    /* 5. 삭제 */
     @DeleteMapping("/coffee_grounds/{groundId}")
     @Operation(summary = "[구현완료] 커피 찌꺼기 삭제", description = """
         ## 커피 찌꺼기 ID를 통해 삭제합니다.
