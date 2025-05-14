@@ -89,8 +89,8 @@ public class AuthController {
     public void googleCallback(@RequestParam("code") String code, HttpServletResponse response) throws IOException {
         MemberLoginResponseDto dto = googleOAuthService.loginGoogle(code);
 
-        // 프론트엔드 리다이렉트 URL (개발 시에는 localhost로)
-        String redirectUrl = "http://localhost:8080/oauth/google/callback" +
+        // 프론트엔드 리다이렉트 URL
+        String redirectUrl = "https://ecobean-e4ae6.web.app/oauth/google/callback" +
                 "?accessToken=" + dto.getAccessToken() +
                 "&refreshToken=" + dto.getRefreshToken() +
                 "&username=" + URLEncoder.encode(dto.getUsername(), StandardCharsets.UTF_8);
