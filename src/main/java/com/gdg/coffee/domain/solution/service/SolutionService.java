@@ -103,7 +103,7 @@ public class SolutionService {
         String purpose = request.getPurpose() == null ? "다양한 용도" : request.getPurpose();
         String beanType = request.getBeanType() == null ? "모든 원두" : request.getBeanType();
         return String.format(
-                "커피 찌꺼기를 활용한 업사이클링 솔루션을 JSON 리스트 형식으로 3개 추천해줘. " +
+                "커피 찌꺼기를 활용한 업사이클링 솔루션을 JSON 리스트 형식으로 3개 추천해줘. 응답은 영어로 해줘" +
                         "조건은 활용 목적: %s, 원두 종류: %s야.\n" +
                         "응답 형식은 다음과 같아:\n" +
                         "[\n" +
