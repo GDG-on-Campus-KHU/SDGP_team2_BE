@@ -12,8 +12,8 @@
   <img src="https://img.shields.io/badge/Gemini-API-4285F4?style=flat-square&logo=google&logoColor=white"/>
 </p>
 
-<h1 align="center">☕ CoffeeReturn</h1>
-<h3 align="center">A cup of coffee for the Earth — an eco-friendly, map-based platform for coffee-ground recycling</h3>
+<h1 align="center">☕ ECO-BEAN</h1>
+<h3 align="center">A cup of coffee for the Earth,<br> An eco-friendly, map-based platform for coffee-ground recycling</h3>
 
 <br/>
 
@@ -25,7 +25,7 @@
 
 ## 📌 Overview
 
-> **CoffeeReturn** is an eco-friendly collection-network platform that connects **cafés and users** to reduce careless disposal of coffee grounds.  
+> **ECO-BEAN** is an eco-friendly collection-network platform that connects **cafés and users** to reduce careless disposal of coffee grounds.  
 > This repository hosts the **back-end** source code.
 
 - 🗺️ **Search collection points on a map**  
@@ -70,8 +70,7 @@
 * Analyse environmental contribution using **Gemini API**
 
 ### 📊 6. Environmental Report
-* Visualise carbon reduction and recycling score  
-* Weekly / Monthly trend reports  
+* Visualise carbon reduction and recycling score   
 * Compare impact between users and cafés  
 
 ### 🛍️ 7. Upcycling Market / Community *(Coming Soon)*
